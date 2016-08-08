@@ -1,4 +1,4 @@
-package com.zlb.demos.androiddemos;
+package com.zlb.demos.androiddemos.labels.activitys;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -6,6 +6,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+
+import com.zlb.demos.androiddemos.R;
 
 public class FirstTestActivity extends AppCompatActivity {
 

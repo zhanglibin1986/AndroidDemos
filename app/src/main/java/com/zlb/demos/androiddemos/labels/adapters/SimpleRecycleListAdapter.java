@@ -1,10 +1,12 @@
-package com.zlb.demos.androiddemos;
+package com.zlb.demos.androiddemos.labels.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.zlb.demos.androiddemos.R;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.zlb.demos.androiddemos;
+package com.zlb.demos.androiddemos.labels.activitys;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,23 +7,27 @@ import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.util.Pair;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.jakewharton.rxbinding.support.design.widget.RxNavigationView;
+import com.jakewharton.rxbinding.view.RxView;
+import com.zlb.demos.androiddemos.R;
 
 import java.text.Collator;
 import java.util.ArrayList;
@@ -35,30 +39,29 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Subscriber;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
     public static String CATEGORY_DEMOS = "com.android.zlb.demos_SAMPLE_CODE";
     @Bind(R.id.main_list) protected RecyclerView recyclerView;
+    @Bind(R.id.toolbar) protected Toolbar toolbar;
+    @Bind(R.id.fab) protected FloatingActionButton fab;
+    @Bind(R.id.drawer_layout) protected DrawerLayout drawer;
+    @Bind(R.id.nav_view) protected NavigationView navigationView;
+
     private HomeAdapter recycleListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        RxView.clicks(fab).subscribe(aVoid -> Snackbar.make(fab, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -66,16 +69,51 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        RxNavigationView.itemSelections(navigationView).subscribe(menuItem -> {
+            int id = menuItem.getItemId();
+            if (id == R.id.nav_camera) {
+                // Handle the camera action
+            } else if (id == R.id.nav_gallery) {
+
+            } else if (id == R.id.nav_slideshow) {
+
+            } else if (id == R.id.nav_manage) {
+            } else if (id == R.id.nav_share) {
+
+            } else if (id == R.id.nav_send) {
+
+            }
+            drawer.closeDrawer(GravityCompat.START);
+        });
 
         initRecyclerView();
         recycleListAdapter = new HomeAdapter(this);
         recyclerView.setAdapter(recycleListAdapter);
 
-        Intent intent = getIntent();
-        String path = intent.getStringExtra("com.example.android.apis.Path");
-        recycleListAdapter.setDatas(getData(path));
+        Observable.just(getIntent())
+                .map(new Func1<Intent, String>() {
+                    @Override
+                    public String call(Intent intent) {
+                        return intent.getStringExtra("com.example.android.apis.Path");
+                    }
+                })
+                .flatMap(new Func1<String, Observable<List<Pair<String, Intent>>>>() {
+                    @Override
+                    public Observable<List<Pair<String, Intent>>> call(String s) {
+                        return getDatas(s);
+                    }
+                })
+                .subscribe(new Action1<List<Pair<String, Intent>>>() {
+                               @Override
+                               public void call(List<Pair<String, Intent>> pairs) {
+                                   recycleListAdapter.setDatas(pairs);
+                               }
+                           }
+                );
+
+//        Intent intent = getIntent();
+//        String path = intent.getStringExtra("com.example.android.apis.Path");
+//        recycleListAdapter.setDatas(getData(path));
     }
 
 
@@ -91,7 +129,6 @@ public class MainActivity extends AppCompatActivity
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
-
     }
 
     @Override
@@ -132,29 +169,14 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+    protected Observable<List<Pair<String, Intent>>> getDatas(String prefix) {
+        return Observable.create(new Observable.OnSubscribe<List<Pair<String, Intent>>>() {
+            @Override
+            public void call(Subscriber<? super List<Pair<String, Intent>>> subscriber) {
+                subscriber.onNext(getData(prefix));
+            }
+        });
     }
 
     protected List<Pair<String, Intent>> getData(String prefix) {

@@ -3,6 +3,7 @@ package com.zlb.demos.androiddemos.rx.demos;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,8 +16,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 public class ObservableDemoActivity extends AppCompatActivity {
 
@@ -30,7 +33,11 @@ public class ObservableDemoActivity extends AppCompatActivity {
     TextView textView5;
     @Bind(R.id.text6)
     TextView textView6;
+    @Bind(R.id.text7)
+    TextView textView7;
     ArrayList<Integer> list;
+    @Bind(R.id.text8)
+    TextView textView8;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +55,7 @@ public class ObservableDemoActivity extends AppCompatActivity {
         for(int i = 0; i < 5; i++) {
             list.add(i);
         }
-        textView6.setOnClickListener(view -> Toast.makeText(this, "test", Toast.LENGTH_SHORT).show());
+//        textView6.setOnClickListener(view -> Toast.makeText(this, "test", Toast.LENGTH_SHORT).show());
     }
 
 
@@ -151,9 +158,71 @@ public class ObservableDemoActivity extends AppCompatActivity {
             @Override
             public void call(String s) {
                 textView5.setText(textView5.getText().toString() + s);
+                Log.d("rx", "text5 call = " + s);
             }
         });
     }
+
+    @OnClick(R.id.text6)
+    public void rxAll() {
+        Observable.from(list).all(new Func1<Integer, Boolean>() {
+            @Override
+            public Boolean call(Integer integer) {
+                Log.d("rx", "call integer = " + integer + " , return " + integer % 3);
+                return integer < 3;
+            }
+        }).subscribe(new Action1<Boolean>() {
+            @Override
+            public void call(Boolean aBoolean) {
+                Log.d("rx", "call aBoolean = " + aBoolean);
+            }
+        });
+    }
+    //转换Observable
+    @OnClick(R.id.text8)
+    public void rxCompose() {//请对比text4 flatMap
+        Observable.from(list).compose(new Observable.Transformer<Integer, Integer>() {
+            @Override
+            public Observable<Integer> call(Observable<Integer> integerObservable) {
+                return integerObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+            }
+        }).subscribe(new Action1<Integer>() {
+            @Override
+            public void call(Integer s) {
+
+            }
+        });
+    }
+
+    @OnClick(R.id.text9)
+    public void rxNiceCompose() {
+        Observable.from(list).compose(applySchedulers()).subscribe(new Action1<Integer>() {
+            @Override
+            public void call(Integer integer) {
+
+            }
+        });
+    }
+
+    <T> Observable.Transformer<T, T> applySchedulers() {
+        return new Observable.Transformer<T, T>() {
+            @Override
+            public Observable<T> call(Observable<T> tObservable) {
+                return tObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+            }
+        };
+    }
+
+    @OnClick(R.id.text10)
+    public void rxLift(View view) {
+        Observable.from(list).lift(new Observable.Operator<String, Integer>() {
+            @Override
+            public Subscriber<? super Integer> call(Subscriber<? super String> subscriber) {
+                return null;
+            }
+        });
+    }
+
 
     private String getBigWrite(int num) {
         switch (num) {
