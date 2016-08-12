@@ -3,6 +3,7 @@
     package="com.zlb.demos.androiddemos">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".AppApplication"
         android:allowBackup="true"
@@ -16,6 +17,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -35,12 +37,22 @@
             android:label="view/Main2Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
             </intent-filter>
         </activity>
-        <activity android:name=".rx.demos.ObservableDemoActivity"
-            android:label="view/ObservableDemoActivity"
-            >
+        <activity
+            android:name=".rx.demos.ObservableDemoActivity"
+            android:label="view/ObservableDemoActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".meizi.GankMainActivity"
+            android:label="Gank-io">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="com.android.zlb.demos_SAMPLE_CODE" />

@@ -58,7 +58,7 @@
         android:layout_below="@id/text5"
         android:textSize="18sp"
         android:gravity="center"
-        android:text="text"
+        android:text="text6"
         />
     <TextView
         android:id="@+id/text7"
@@ -67,7 +67,7 @@
         android:layout_below="@id/text6"
         android:textSize="18sp"
         android:gravity="center"
-        android:text="text"
+        android:text="text7"
         />
     <TextView
         android:id="@+id/text8"
@@ -76,24 +76,33 @@
         android:layout_below="@id/text6"
         android:textSize="18sp"
         android:gravity="center"
-        android:text="text"
+        android:text="text8"
         />
     <TextView
         android:id="@+id/text9"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@id/text6"
+        android:layout_below="@id/text8"
         android:textSize="18sp"
         android:gravity="center"
-        android:text="text"
+        android:text="text9"
         />
     <TextView
         android:id="@+id/text10"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@id/text6"
+        android:layout_below="@id/text9"
         android:textSize="18sp"
         android:gravity="center"
-        android:text="text"
+        android:text="text10"
+        />
+    <TextView
+        android:id="@+id/text11"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/text10"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:text="text11"
         />
 </RelativeLayout>

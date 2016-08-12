@@ -1,9 +1,10 @@
 package com.zlb.demos.androiddemos.net;
 
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 /**
  * @author zhanglibin
@@ -13,7 +14,22 @@ import com.squareup.okhttp.Request;
  * @Description
  */
 public class OkHttpManager {
-    private OkHttpClient okHttpClient = new OkHttpClient();
+    private static OkHttpClient okHttpClient = new OkHttpClient();
+    private static OkHttpManager okHttpManager = new OkHttpManager();
+    public static OkHttpManager getInstance() {
+        return okHttpManager;
+    }
+
+    private OkHttpManager() {
+        initOkHttpClient();
+    }
+
+    private void initOkHttpClient() {// TODO: 16/8/10 do init work
+    }
+
+    public OkHttpClient getOkHttpClient() {
+        return okHttpClient;
+    }
 
     public void request(String url, Callback callback) {
         Request request = new Request.Builder().url(url).build();

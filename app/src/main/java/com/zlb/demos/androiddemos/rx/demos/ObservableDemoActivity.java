@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.zlb.demos.androiddemos.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -215,10 +216,48 @@ public class ObservableDemoActivity extends AppCompatActivity {
 
     @OnClick(R.id.text10)
     public void rxLift(View view) {
-        Observable.from(list).lift(new Observable.Operator<String, Integer>() {
+//        Observable.from(list).lift(new Observable.Operator<String, Integer>() {
+//            @Override
+//            public Subscriber<? super Integer> call(Subscriber<? super String> subscriber) {
+//                return null;
+//            }
+//        });
+        getThirdObservable().subscribe(new Subscriber<String>() {
             @Override
-            public Subscriber<? super Integer> call(Subscriber<? super String> subscriber) {
-                return null;
+            public void onCompleted() {
+                log("------onCompleted");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                log("------onError");
+            }
+
+            @Override
+            public void onNext(String s) {
+
+                log("------onNext s = " + s);
+            }
+        });
+    }
+
+    @OnClick(R.id.text11)
+    public void rxConcat() {
+        Observable.concat(getThirdObservable(), getFirstObservable(), getSecondObservable()).subscribe(new Subscriber<String>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e("rx", "----------------------------------------------------- onError");
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(String s) {
+                Toast.makeText(ObservableDemoActivity.this, s, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -248,9 +287,48 @@ public class ObservableDemoActivity extends AppCompatActivity {
             return "玖";
             default:
                 return "";
-
         }
 
+    }
+
+    private Observable<String> getFirstObservable() {
+        return Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                subscriber.onNext("first 1");
+                subscriber.onNext("first 2");
+                subscriber.onNext("first 3");
+                subscriber.onCompleted();
+            }
+        });
+    }
+
+    private Observable<String> getSecondObservable() {
+        List<String> list = new ArrayList<>();
+        list.add("second 1");
+        list.add("second 2");
+        list.add("second 3");
+        return Observable.from(list);
+    }
+
+    private Observable<String> getThirdObservable() {
+
+        List<String> list = new ArrayList<>();
+        list.add("third 1");
+        list.add("third 2");
+        list.add("third 3");
+        return Observable.from(list).map(new Func1<String, String>() {
+            @Override
+            public String call(String s) {
+                try {
+                    Thread.sleep(3,000);
+                    s = s + ",";
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return s;
+            }
+        });
     }
 
 
