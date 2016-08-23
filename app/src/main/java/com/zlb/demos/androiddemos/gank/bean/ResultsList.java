@@ -1,4 +1,4 @@
-package com.zlb.demos.androiddemos.meizi.bean;
+package com.zlb.demos.androiddemos.gank.bean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class ResultsList {
     private boolean error;
-    private List<Meizi> results = new ArrayList<>();
+    private List<GankImage> results = new ArrayList<>();
 
     public boolean isError() {
         return error;
@@ -22,11 +22,11 @@ public class ResultsList {
         this.error = error;
     }
 
-    public List<Meizi> getResults() {
+    public List<GankImage> getResults() {
         return results;
     }
 
-    public void setResults(List<Meizi> results) {
+    public void setResults(List<GankImage> results) {
         this.results = results;
     }
 

@@ -6,4 +6,15 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="breadicon_shy_width">87dp</dimen>
+     <dimen name="breadicon_shy_height">110dp</dimen>
+
+    <dimen name="breadicon_cry_width">80dp</dimen> 
+    <dimen name="breadicon_cry_height">84dp</dimen>
+      <dimen name="breadicon_loadmore_width">63dp</dimen> 
+    <dimen name="breadicon_loadmore_height">63dp</dimen>  
+    <dimen name="breadicon_loading_width">113dp</dimen> 
+    <dimen name="breadicon_loading_height">93dp</dimen>
+    <dimen name="default_corner_radius">4dp</dimen>
+    <dimen name="default_shadow_radius">4dp</dimen>
 </resources>

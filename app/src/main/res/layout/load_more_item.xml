@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/load_more_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <RelativeLayout
+        android:id="@+id/id_item_loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="14dp"
+        android:paddingBottom="16dp">
+        <com.breadtrip.view.LoadMoreView
+            android:layout_width="@dimen/breadicon_loadmore_width"
+            android:layout_height="@dimen/breadicon_loadmore_height"
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/id_item_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:paddingTop="14dp"
+        android:paddingBottom="16dp"
+        >
+      <ImageView
+            android:id="@+id/error_retry"
+            android:layout_width="@dimen/breadicon_loadmore_width"
+            android:layout_height="@dimen/breadicon_loadmore_height"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/shy"
+            android:scaleType="centerInside"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/error_retry"
+            android:text="@string/click_to_load_more"
+            android:textColor="@color/cityBg"
+            android:textSize="12sp"
+            android:layout_marginTop="8dp"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>

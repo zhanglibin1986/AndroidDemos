@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/img_cry"
+        android:layout_width="@dimen/breadicon_cry_width"
+        android:layout_height="@dimen/breadicon_cry_height"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/cry" />
+
+    <TextView
+        android:id="@+id/loading_error_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img_cry"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:gravity="center"
+        android:text="@string/loadlayout_error"
+        android:textColor="@color/color_ffDFD3B6" />
+
+    <Button
+        android:id="@+id/btn_refresh"
+        android:layout_width="110dp"
+        android:layout_height="38dp"
+        android:layout_below="@id/loading_error_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/shape_loadlayout_retry_btn"
+        android:gravity="center"
+        android:text="@string/reload"
+        android:textColor="@color/color_ffDFD3B6"
+        android:textSize="13sp" />
+
+</RelativeLayout>

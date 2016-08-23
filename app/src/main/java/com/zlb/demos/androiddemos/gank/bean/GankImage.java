@@ -1,4 +1,4 @@
-package com.zlb.demos.androiddemos.meizi.bean;
+package com.zlb.demos.androiddemos.gank.bean;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
@@ -9,7 +9,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  * @date 16/8/12上午10:17
  * @Description
  */
-public class Meizi {
+public class GankImage {
     @JSONField(name = "id")
     private String id;
     private String createdAt;
@@ -95,7 +95,7 @@ public class Meizi {
 
     @Override
     public String toString() {
-        return "Meizi{" +
+        return "GankImage{" +
                 "id='" + id + '\'' +
                 ", createdAt='" + createdAt + '\'' +
                 ", desc='" + desc + '\'' +
