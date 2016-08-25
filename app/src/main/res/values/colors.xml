@@ -5,4 +5,14 @@
     <color name="colorAccent">#FF4081</color>
     <color name="color_ffDFD3B6">#FFDFD3B6</color>
     <color name="cityBg">#E7DDC6</color>
+    <color name="browseModeTabbarBg">#B2000000</color>
+    <color name="bread_darkprimary">#2E9DAB</color>
+    <color name="transparent">#00000000</color>
+    <color name="btn_transparent">#40E7E7E7</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="activity_bg">#FBF7ED</color>
+    <color name="list_item">#F1EAD9</color>
+    <color name="themeColor">#4ABDCC</color>
+    <color name="browseModeContentBg">#4C000000</color>
 </resources>

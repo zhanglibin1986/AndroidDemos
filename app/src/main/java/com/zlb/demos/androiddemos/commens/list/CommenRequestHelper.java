@@ -48,7 +48,7 @@ public class CommenRequestHelper {
             Iterator<String> iterator = set.iterator();
             while (iterator.hasNext()) {
                 String key = iterator.next();
-                if(!TextUtils.isEmpty(key) && key.equals(recyclerRequest.getNextStartKey()) && !TextUtils.isEmpty(recyclerRequest.getNextStartValue()) && recyclerRequest.isHasMoreParam()) {//参数滤重
+                if(!TextUtils.isEmpty(key) && key.equals(recyclerRequest.getNextStartKey()) && !TextUtils.isEmpty(recyclerRequest.getNextStartValue()) && recyclerRequest.isHasMoreParam()) {//分页参数滤重
                     continue;
                 }
                 String value = params.get(key);
@@ -58,7 +58,7 @@ public class CommenRequestHelper {
         if(recyclerRequest.isHasMoreParam() && !TextUtils.isEmpty(recyclerRequest.getNextStartKey())) {
             httpBuilder.addQueryParameter(recyclerRequest.getNextStartKey(), recyclerRequest.getNextStartValue());
         }
-
+        builder.url(httpBuilder.build());//读取tag
         if(recyclerRequest.getRequestType() == CommenListRequest.RequestType.METHOD_POST) {
             builder.post(buildeRequestBody(recyclerRequest));
         } else {

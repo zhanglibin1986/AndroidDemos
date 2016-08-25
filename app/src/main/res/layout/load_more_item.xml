@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="14dp"
         android:paddingBottom="16dp">
-        <com.breadtrip.view.LoadMoreView
+        <com.zlb.demos.androiddemos.commens.list.LoadMoreView
             android:layout_width="@dimen/breadicon_loadmore_width"
             android:layout_height="@dimen/breadicon_loadmore_height"
             android:layout_centerInParent="true"

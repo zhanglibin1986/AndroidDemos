@@ -75,8 +75,6 @@ public class GankMainActivity extends BaseActivity {
                 });
     }
 
-    @OnClick
-
     private List<String> parseData(ResultsList resultsList) {
         List<String> urls = new ArrayList<>();
         List<GankImage> gankList = resultsList.getResults();

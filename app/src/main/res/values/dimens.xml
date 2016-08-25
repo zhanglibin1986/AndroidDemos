@@ -17,4 +17,5 @@
     <dimen name="breadicon_loading_height">93dp</dimen>
     <dimen name="default_corner_radius">4dp</dimen>
     <dimen name="default_shadow_radius">4dp</dimen>
+    <dimen name="pagesMargin">50dp</dimen>
 </resources>

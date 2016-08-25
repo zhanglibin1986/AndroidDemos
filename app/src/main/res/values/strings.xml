@@ -12,4 +12,5 @@
     <string name="reload">重新加载</string>
     <string name="msg_no_network">当前页面加载失败\n请检查网络后重新加载</string>
     <string name="click_to_load_more">点击加载更多</string>
+    <string name="http_error_netfailed">当前网络不稳定，请稍后重试</string>
 </resources>

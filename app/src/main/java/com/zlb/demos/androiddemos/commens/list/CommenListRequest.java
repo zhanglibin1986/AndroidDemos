@@ -23,6 +23,7 @@ public class CommenListRequest implements Cloneable {
     private IResponseParser responseParser;
     private RequestType requestType;//请求类型
     private List<OkRequestListener> listeners = new ArrayList<>();
+    private List<CommenRequestListener> commenRequestListeners = new ArrayList<>();
 
     private String nextStartKey;
     private String nextStartValue;
@@ -30,6 +31,7 @@ public class CommenListRequest implements Cloneable {
      * 参数中是否要加 nextStartKey，如果为false或者nextStartKey为空,则请求url中不含有nextStartKey和nextStartValue的键值对
      */
     private boolean hasMoreParam = true;
+    private Class resultObject;
 
     public String getUrl() {
         return url;
@@ -107,6 +109,30 @@ public class CommenListRequest implements Cloneable {
         this.listeners.add(listener);
     }
 
+    public void removeListener(OkRequestListener listener) {
+        if(this.listeners.contains(listener)) {
+            this.listeners.remove(listener);
+        }
+    }
+
+    public List<CommenRequestListener> getCommenRequestListeners() {
+        return commenRequestListeners;
+    }
+
+    public void setCommenRequestListeners(List<CommenRequestListener> commenRequestListeners) {
+        this.commenRequestListeners = commenRequestListeners;
+    }
+
+    public void addCommenRequestListener(CommenRequestListener listener) {
+        this.commenRequestListeners.add(listener);
+    }
+
+    public void removeCommenListener(CommenRequestListener listener) {
+        if(this.commenRequestListeners.contains(listener)) {
+            this.commenRequestListeners.remove(listener);
+        }
+    }
+
     public void setRequestType(RequestType requestType) {
         this.requestType = requestType;
     }
@@ -147,6 +173,14 @@ public class CommenListRequest implements Cloneable {
         this.hasMoreParam = hasMoreParam;
     }
 
+    public Class getResultObject() {
+        return resultObject;
+    }
+
+    public void setResultObject(Class resultObject) {
+        this.resultObject = resultObject;
+    }
+
     public static class Builder {
         private String url;
         private Map<String, String> headers = new HashMap<>();
@@ -162,6 +196,8 @@ public class CommenListRequest implements Cloneable {
         private String nextStartKey;
         private String nextStartValue;
         private boolean hasMoreParam = true;//参数中是否要加 nextStartKey
+        private List<CommenRequestListener> commenRequestListeners = new ArrayList<>();
+        private Class resultObject;
 
         public Builder(String url, IResponseParser parser) {
             this.url = url;
@@ -185,6 +221,11 @@ public class CommenListRequest implements Cloneable {
 
         public Builder addListener(OkRequestListener listener) {
             this.listeners.add(listener);
+            return this;
+        }
+
+        public Builder addCommenRequestListener(CommenRequestListener listener) {
+            this.commenRequestListeners.add(listener);
             return this;
         }
 
@@ -223,6 +264,11 @@ public class CommenListRequest implements Cloneable {
             return this;
         }
 
+        public Builder resultObject(Class<?> clz) {
+            this.resultObject = clz;
+            return this;
+        }
+
         public CommenListRequest build() {
             CommenListRequest request = new CommenListRequest();
             request.url = this.url;
@@ -237,6 +283,8 @@ public class CommenListRequest implements Cloneable {
             request.setNextStartKey(this.nextStartKey);
             request.setNextStartValue(this.nextStartValue);
             request.setHasMoreParam(this.hasMoreParam);
+            request.setCommenRequestListeners(this.commenRequestListeners);
+            request.setResultObject(this.resultObject);
             return request;
         }
     }

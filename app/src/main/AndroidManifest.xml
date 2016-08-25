@@ -59,6 +59,19 @@
             </intent-filter>
 
         </activity>
+        <activity
+            android:name=".commens.list.sample.SampleActivity"
+            android:label="SampleActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
+            </intent-filter>
+
+        </activity>
+
+        <activity android:name=".touchPager.BrowseModeActivity"
+
+            />
     </application>
 
 </manifest>

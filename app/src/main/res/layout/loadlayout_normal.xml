@@ -5,7 +5,7 @@
     android:paddingBottom="80dp"
     android:gravity="center"
     >
-    <com.breadtrip.view.customview.LoadAnimationView
+    <com.zlb.demos.androiddemos.commens.list.LoadAnimationView
         android:id="@+id/loadAnimationView"
         android:layout_width="@dimen/breadicon_loading_width"
         android:layout_height="@dimen/breadicon_loading_height"

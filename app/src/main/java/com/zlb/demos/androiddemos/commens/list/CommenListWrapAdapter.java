@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.zlb.demos.androiddemos.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,27 +19,26 @@ import java.util.List;
  * @date 16/8/13下午10:05
  * @Description
  */
-public class CommenListWrapAdapter extends RecyclerView.Adapter{
+public class CommenListWrapAdapter extends RecyclerView.Adapter implements BaseCommenListAdapter.DataChageListener {
+    public static final int TYPE_LAST = 9999;//代表是列表中最后一条数据，我们称为末位标识的type
+    public static final int TYPE_CUSTOM = 10000;//代表是列表中最后一条数据，我们称为末位标识的type
+
     private BaseCommenListAdapter delegate;
     private Context mContext;
     private int customLastLayoutId;//最后一条自定义布局
     private LastItemState mLastItemState;//末位标识的状态：加载更多，无加载更多，加载出错当前无网。
     private boolean hasMore;
-    private MoreType moreItem = new MoreType();
-    private CustomType customType = new CustomType();
     private IBaseRecyclerAdapterController mAdapterController;
     private CommentListResponse responseData;
+//    private List<Object> allData = new ArrayList<>();
 
-    public CommenListWrapAdapter(Context context, BaseCommenListAdapter delegate) {
+    public CommenListWrapAdapter(Context context, BaseCommenListAdapter delegate, IBaseRecyclerAdapterController controller) {
         this.delegate = delegate;
         this.mContext = context;
+        this.customLastLayoutId = delegate.getCustomLastLayoutId();
+        this.mAdapterController = controller;
     }
 
-    public CommenListWrapAdapter(Context context, BaseCommenListAdapter delegate, int customLastLayoutId) {
-        this.mContext = context;
-        this.delegate = delegate;
-        this.customLastLayoutId = customLastLayoutId;
-    }
 
     private boolean hasCustomLast() {
         return customLastLayoutId != 0;
@@ -48,14 +48,25 @@ public class CommenListWrapAdapter extends RecyclerView.Adapter{
     protected <T> void initData(CommentListResponse<T> data) {
         this.hasMore = data.isHasMore();
         this.responseData = data;
+//        allData.clear();
         delegate.setData(data.getData());
+//        allData.addAll(responseData.getData());
         mLastItemState = hasMore ? LastItemState.LOADING : LastItemState.NONE;
         notifyDataSetChanged();
     }
 
     protected <T> void addData(CommentListResponse<T> data) {
-        responseData.getData().addAll(data.getData());
         delegate.addData(data.getData());
+        syncData();
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 从delete同步列表数据
+     */
+    private void syncData() {
+        responseData.getData().clear();
+        responseData.getData().addAll(delegate.getDatas());
     }
 
     /**
@@ -72,10 +83,10 @@ public class CommenListWrapAdapter extends RecyclerView.Adapter{
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder = null;
         switch(viewType) {
-            case IItemDataType.TYPE_LAST:
+            case TYPE_LAST:
                 holder = new HolderLastItem(LayoutInflater.from(mContext).inflate(R.layout.load_more_item, parent, false), mAdapterController);
                 break;
-            case IItemDataType.TYPE_CUSTOM:
+            case TYPE_CUSTOM:
                 holder = new HolderCustomLast(LayoutInflater.from(mContext).inflate(customLastLayoutId, parent, false));
                 break;
             default:
@@ -89,14 +100,15 @@ public class CommenListWrapAdapter extends RecyclerView.Adapter{
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int type = getItemViewType(position);
         switch (type) {
-            case IItemDataType.TYPE_LAST:
+            case TYPE_LAST:
                 HolderLastItem lastItem = (HolderLastItem) holder;
                 lastItem.show(mLastItemState);//根据最后一条数据的类型决定显示哪种ui
                 Log.d("more", "onBindViewHolder mLastItemState = " + mLastItemState + " , position = " + position);
                 break;
-            case IItemDataType.TYPE_CUSTOM:
+            case TYPE_CUSTOM:
                 break;
             default:
+                Log.e("error", "position = " + position);
                 delegate.onBindViewHolder(holder, position);
                 break;
         }
@@ -104,29 +116,19 @@ public class CommenListWrapAdapter extends RecyclerView.Adapter{
 
     @Override
     public int getItemViewType(int position) {
-        if(hasCustomLast() && hasMore) {//有自定义结尾和加载更多
+        if(hasMore) {
             if(position == getItemCount() - 1) {
-                return IItemDataType.TYPE_CUSTOM;
-            } else if(position == getItemCount() - 2) {
-                return IItemDataType.TYPE_LAST;
+                return TYPE_LAST;
             } else {
                 return delegate.getItemViewType(position);
             }
-        } else if(hasCustomLast() || hasMore) {//有自定义或加载更多
-            if(hasCustomLast()) {
-                if(position == getItemCount() - 1) {
-                    return IItemDataType.TYPE_CUSTOM;
-                } else {
-                    return delegate.getItemViewType(position);
-                }
+        } else if(hasCustomLast()) {
+            if(position == getItemCount() - 1) {
+                return TYPE_CUSTOM;
             } else {
-                if(position == getItemCount() - 1) {
-                    return IItemDataType.TYPE_LAST;
-                } else {
-                    return delegate.getItemViewType(position);
-                }
+                return delegate.getItemViewType(position);
             }
-        } else {//没有自定义和加载更多
+        } else {
             return delegate.getItemViewType(position);
         }
     }
@@ -138,7 +140,16 @@ public class CommenListWrapAdapter extends RecyclerView.Adapter{
 
     @Override
     public int getItemCount() {
-        return 0;
+        if(hasMore) {
+            return delegate.getItemCount() + 1;
+        } else {
+            return delegate.getItemCount() + (hasCustomLast() ? 1 : 0);
+        }
+    }
+
+    @Override
+    public void onDataChanged() {
+        syncData();
     }
 
 
@@ -147,29 +158,6 @@ public class CommenListWrapAdapter extends RecyclerView.Adapter{
          * 点击重新加载
          */
         public void onReloadClicked();
-    }
-
-    /**
-     * Adapter中的数据应该都是此类型
-     */
-    public interface IItemDataType {
-        public static final int TYPE_LAST = 999;//代表是列表中最后一条数据，我们称为末位标识的type
-        public static final int TYPE_CUSTOM = 1000;//代表是列表中最后一条数据，我们称为末位标识的type
-        int getType();
-    }
-
-    class MoreType implements IItemDataType {
-        @Override
-        public int getType() {
-            return IItemDataType.TYPE_LAST;
-        }
-    }
-
-    class CustomType implements IItemDataType {
-        @Override
-        public int getType() {
-            return IItemDataType.TYPE_CUSTOM;
-        }
     }
 
     /**
@@ -219,14 +207,14 @@ public class CommenListWrapAdapter extends RecyclerView.Adapter{
         notifyDataSetChanged();
     }
 
-    void setAdapterController(IBaseRecyclerAdapterController controller) {
-        this.mAdapterController = controller;
-    }
-
     class HolderCustomLast extends RecyclerView.ViewHolder {
         public HolderCustomLast(View itemView) {
             super(itemView);
         }
+    }
+
+    public void clear() {
+        this.delegate.clear();
     }
 
     /**

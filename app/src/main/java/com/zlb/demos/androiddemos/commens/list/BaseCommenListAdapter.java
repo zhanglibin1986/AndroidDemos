@@ -14,17 +14,43 @@ import java.util.List;
  * @Description
  */
 public abstract class BaseCommenListAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<T> datas = new ArrayList<>();
+    protected List<T> datas = new ArrayList<>();
+    protected int customLastLayoutId;//自定义最后一条布局
+    private DataChageListener dataChageListener;//数据发生变化后会通知
+    public BaseCommenListAdapter() {
 
+    }
+
+    /**
+     *
+     * @param customLastLayoutId 自定义最后一条布局
+     */
+    public BaseCommenListAdapter(int customLastLayoutId) {
+        this.customLastLayoutId = customLastLayoutId;
+    }
+
+    @Override
+    public int getItemCount() {
+        return datas.size();
+    }
+
+    /**
+     * 初始化设置数据
+     * @param data
+     */
     public void setData(List<T> data) {
         this.datas.clear();
         this.datas.addAll(data);
-        notifyDataSetChanged();
+        dataChanged();
     }
 
+    /**
+     * 添加数据
+     * @param data
+     */
     public void addData(List<T> data) {
         this.datas.addAll(data);
-        notifyDataSetChanged();
+        dataChanged();
     }
 
     /**
@@ -33,6 +59,14 @@ public abstract class BaseCommenListAdapter<T> extends RecyclerView.Adapter<Recy
      */
     public List<T> getDatas() {
         return datas;
+    }
+
+    public int getCustomLastLayoutId() {
+        return customLastLayoutId;
+    }
+
+    public void setCustomLastLayoutId(int customLastLayoutId) {
+        this.customLastLayoutId = customLastLayoutId;
     }
 
     /**
@@ -45,6 +79,23 @@ public abstract class BaseCommenListAdapter<T> extends RecyclerView.Adapter<Recy
                 notifyDataSetChanged();
             }
         }
+    }
+
+    public void setDataChangeListener(DataChageListener listener) {
+        this.dataChageListener = listener;
+    }
+
+    /**
+     * 通知数据发生变化
+     */
+    private void dataChanged() {
+        if(dataChageListener != null) {
+            dataChageListener.onDataChanged();
+        }
+    }
+
+    public interface DataChageListener {
+        void onDataChanged();
     }
 
 }
