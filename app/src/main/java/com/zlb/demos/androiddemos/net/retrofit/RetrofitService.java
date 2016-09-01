@@ -18,7 +18,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 public class RetrofitService {
     private static Retrofit.Builder builder = new Retrofit.Builder().baseUrl(Constant.BASE_URL)
             .client(OkHttpManager.getInstance().getOkHttpClient())
-//            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
 //            .addConverterFactory(JacksonConverterFactory.create())
             .addConverterFactory(FastJsonConverterFactory.create());
 

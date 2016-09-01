@@ -53,6 +53,11 @@ public abstract class BaseCommenListAdapter<T> extends RecyclerView.Adapter<Recy
         dataChanged();
     }
 
+    public void addItem(T item) {
+        this.datas.add(item);
+        dataChanged();
+    }
+
     /**
      * 获取列表数据
      * @return

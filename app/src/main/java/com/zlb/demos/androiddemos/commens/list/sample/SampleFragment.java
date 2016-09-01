@@ -1,6 +1,7 @@
 package com.zlb.demos.androiddemos.commens.list.sample;
 
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -42,6 +43,11 @@ public class SampleFragment extends BaseCommenListFragment {
                 .nextStartKey("next_start")
                 .nextStartValue("0")
                 .build());
+    }
+
+    @Override
+    protected int initSpanCount() {
+        return 2;
     }
 
     class SampleAdapter extends BaseCommenListAdapter<TripElements.TripData> {

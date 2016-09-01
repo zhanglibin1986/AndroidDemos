@@ -2,8 +2,10 @@ package com.zlb.demos.androiddemos.commens.list;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 
 /**
  * @author zhanglibin
@@ -14,7 +16,7 @@ import android.support.v7.widget.RecyclerView;
  */
 public class RecyclerViewMoreManager {
     private RecyclerView mRecyclerView;
-    private LinearLayoutManager layoutManager;
+    private GridLayoutManager layoutManager;
     private MoreRecyclerCallback callback;
     private RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -44,10 +46,23 @@ public class RecyclerViewMoreManager {
     }
 
 
-    public RecyclerViewMoreManager(Activity activity, @NonNull RecyclerView recyclerView, MoreRecyclerCallback callback) {
+
+    public RecyclerViewMoreManager(Activity activity, @NonNull RecyclerView recyclerView, int spanCount, MoreRecyclerCallback callback) {
         mRecyclerView = recyclerView;
-        layoutManager = new LinearLayoutManager(activity);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager = new GridLayoutManager(activity, spanCount);
+        layoutManager.setOrientation(GridLayoutManager.VERTICAL);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                int type = mRecyclerView.getAdapter().getItemViewType(position);
+                if(type == CommenListWrapAdapter.TYPE_CUSTOM || type == CommenListWrapAdapter.TYPE_LAST) {
+                    return spanCount;
+                } else {
+                    return 1;
+                }
+            }
+        });
+
         mRecyclerView.setLayoutManager(layoutManager);
         this.callback = callback;
         mRecyclerView.addOnScrollListener(scrollListener);

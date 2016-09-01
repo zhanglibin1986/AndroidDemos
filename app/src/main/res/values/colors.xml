@@ -15,4 +15,5 @@
     <color name="list_item">#F1EAD9</color>
     <color name="themeColor">#4ABDCC</color>
     <color name="browseModeContentBg">#4C000000</color>
+    <drawable name="rapple_03">#2E9DAB</drawable>
 </resources>

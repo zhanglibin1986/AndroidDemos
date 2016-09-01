@@ -39,7 +39,6 @@ public class CommenListWrapAdapter extends RecyclerView.Adapter implements BaseC
         this.mAdapterController = controller;
     }
 
-
     private boolean hasCustomLast() {
         return customLastLayoutId != 0;
     }
@@ -103,12 +102,10 @@ public class CommenListWrapAdapter extends RecyclerView.Adapter implements BaseC
             case TYPE_LAST:
                 HolderLastItem lastItem = (HolderLastItem) holder;
                 lastItem.show(mLastItemState);//根据最后一条数据的类型决定显示哪种ui
-                Log.d("more", "onBindViewHolder mLastItemState = " + mLastItemState + " , position = " + position);
                 break;
             case TYPE_CUSTOM:
                 break;
             default:
-                Log.e("error", "position = " + position);
                 delegate.onBindViewHolder(holder, position);
                 break;
         }

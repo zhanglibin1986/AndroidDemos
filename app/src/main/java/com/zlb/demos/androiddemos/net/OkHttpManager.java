@@ -34,6 +34,7 @@ public class OkHttpManager {
     }
 
     private void initOkHttpClient() {// TODO: 16/8/10 do init work
+//        okHttpClient.cache()
     }
 
     public OkHttpClient getOkHttpClient() {

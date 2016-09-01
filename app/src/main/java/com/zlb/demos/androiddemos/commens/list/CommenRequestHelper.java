@@ -58,6 +58,10 @@ public class CommenRequestHelper {
         if(recyclerRequest.isHasMoreParam() && !TextUtils.isEmpty(recyclerRequest.getNextStartKey())) {
             httpBuilder.addQueryParameter(recyclerRequest.getNextStartKey(), recyclerRequest.getNextStartValue());
         }
+        for(String path : recyclerRequest.getPaths()) {
+            httpBuilder.addPathSegment(path);
+        }
+
         builder.url(httpBuilder.build());//读取tag
         if(recyclerRequest.getRequestType() == CommenListRequest.RequestType.METHOD_POST) {
             builder.post(buildeRequestBody(recyclerRequest));

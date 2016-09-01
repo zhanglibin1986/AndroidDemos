@@ -199,6 +199,10 @@ public class CommenListRequest implements Cloneable {
         private List<CommenRequestListener> commenRequestListeners = new ArrayList<>();
         private Class resultObject;
 
+        public static Builder newInstanse(String url, IResponseParser parser) {
+            return new Builder(url, parser);
+        }
+
         public Builder(String url, IResponseParser parser) {
             this.url = url;
             this.responseParser = parser;
@@ -246,6 +250,11 @@ public class CommenListRequest implements Cloneable {
 
         public Builder addPaths(List<String> paths) {
             this.paths.addAll(paths);
+            return this;
+        }
+
+        public Builder addPath(String path) {
+            this.paths.add(path);
             return this;
         }
 

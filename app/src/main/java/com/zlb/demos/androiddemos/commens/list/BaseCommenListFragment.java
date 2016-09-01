@@ -43,7 +43,7 @@ public abstract class BaseCommenListFragment extends RxFragment implements OkReq
     
     private CommenRequestHelper requestHelper;
     private boolean isRequesting;// 是否正在请求数据
-    private CommenListRequest mRequest;
+    protected CommenListRequest mRequest;
     private CommenListRequest originRequest;
     private CommenListWrapAdapter wrapAdapter;
     protected View rootView;
@@ -70,7 +70,7 @@ public abstract class BaseCommenListFragment extends RxFragment implements OkReq
 
         wrapAdapter = new CommenListWrapAdapter(getActivity(), initAdapter(), this);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        mRecyclerViewMoreManager = new RecyclerViewMoreManager(getActivity(), mRecyclerView, this);
+        mRecyclerViewMoreManager = new RecyclerViewMoreManager(getActivity(), mRecyclerView, initSpanCount(), this);
         mRecyclerView.setAdapter(wrapAdapter);
 
         LoadLayoutUi.Builder builder = LoadLayoutUi.Builder.newInstance(getActivity(), this, (ViewGroup) rootView.findViewById(R.id.root_container), mContentView);
@@ -86,8 +86,8 @@ public abstract class BaseCommenListFragment extends RxFragment implements OkReq
         return rootView;
     }
 
-    protected void initLoadUi() {
-
+    protected int initSpanCount() {
+        return 1;
     }
 
     protected int getCustomEmptyLayoutId() {

@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:drawableBottom="@drawable/shape_bottom_line"
+        android:background="@drawable/bg_btn_default"
         >
 
     </TextView>
