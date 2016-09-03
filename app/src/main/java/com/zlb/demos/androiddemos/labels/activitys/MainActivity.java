@@ -1,9 +1,11 @@
 package com.zlb.demos.androiddemos.labels.activitys;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.FloatingActionButton;
@@ -17,17 +19,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding.support.design.widget.RxNavigationView;
 import com.jakewharton.rxbinding.view.RxView;
 import com.zlb.demos.androiddemos.R;
+import com.zlb.demos.androiddemos.base.BaseActivity;
 
 import java.text.Collator;
 import java.util.ArrayList;
@@ -44,7 +49,7 @@ import rx.Subscriber;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     public static String CATEGORY_DEMOS = "com.android.zlb.demos_SAMPLE_CODE";
     @Bind(R.id.main_list) protected RecyclerView recyclerView;
     @Bind(R.id.toolbar) protected Toolbar toolbar;
@@ -53,10 +58,19 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.nav_view) protected NavigationView navigationView;
 
     private HomeAdapter recycleListAdapter;
+    private Intent lastedActivity;
+    public static final boolean launchLastActivity = true;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        getWindow().setAllowEnterTransitionOverlap(true);
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setEnterTransition( new Explode() );
+        getWindow().setExitTransition( new Explode() );
+
         setContentView(R.layout.activity_main);
         setSupportActionBar(toolbar);
 
@@ -107,6 +121,9 @@ public class MainActivity extends AppCompatActivity {
                                @Override
                                public void call(List<Pair<String, Intent>> pairs) {
                                    recycleListAdapter.setDatas(pairs);
+                                   if(launchLastActivity && lastedActivity != null) {
+                                       startActivity(lastedActivity);
+                                   }
                                }
                            }
                 );
@@ -139,12 +156,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public void setContentView(@LayoutRes int layoutResID) {
-        super.setContentView(layoutResID);
-        ButterKnife.bind(this);
     }
 
     @Override
@@ -240,7 +251,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        Collections.sort(myData, sDisplayNameComparator);
+
+        lastedActivity = activityIntent(list.get(list.size() -1).activityInfo.applicationInfo.packageName, list.get(list.size() -1).activityInfo.name);
+
+//        Collections.sort(myData, sDisplayNameComparator);
 
         return myData;
     }

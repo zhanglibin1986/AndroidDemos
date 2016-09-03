@@ -16,4 +16,8 @@
     <string name="trans_image_left">transition_image_left</string>
     <string name="trans_image_right">transition_image_right</string>
     <string name="trans_btn">transition_button</string>
+    <string name="trans_imagedemo">imagedemo1</string>
+    <string name="default_image">Default Image</string>
+    <string name="failure_image">Failure Image</string>
+    <string name="view_pager">ViewPager</string>
 </resources>

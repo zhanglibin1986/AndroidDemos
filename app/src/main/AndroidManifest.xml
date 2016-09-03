@@ -64,15 +64,6 @@
                 <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
             </intent-filter>
         </activity>
-        <activity android:name=".gank.GankMainActivity">
-
-            <!-- android:label="Gank-io" -->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".commens.list.sample.SampleActivity"
             android:label="SampleActivity">
@@ -91,6 +82,17 @@
                 <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".material.TransitionSourceActivity"
+            android:label="TransitionDemo1">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".material.TransitioinDestinationActivity"></activity>
+
         <activity
             android:name=".material.CircularRevealActivity"
             android:label="CircularRevealActivity">
@@ -100,17 +102,22 @@
                 <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".material.MaterialTransitionActivity"
-            android:label="MaterialTransitionActivity"
+
+        <activity android:name=".gank.GankMainActivity"
+            android:label="Gank-io"
             >
+
+            <!-- android:label="Gank-io" -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
             </intent-filter>
         </activity>
-        <activity android:name=".material.MaterialT2Activity"
-            ></activity>
+
+        <activity android:name=".gank.ViewPagerActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
     </application>
 
 </manifest>

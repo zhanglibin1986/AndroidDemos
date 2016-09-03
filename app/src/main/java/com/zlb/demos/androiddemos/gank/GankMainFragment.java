@@ -18,7 +18,10 @@ import com.zlb.demos.androiddemos.gank.bean.GankImage;
 import com.zlb.demos.androiddemos.gank.bean.ResultsList;
 import com.zlb.demos.androiddemos.utils.DisplayUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.OnClick;
 
 /**
  * @author zhanglibin
@@ -29,6 +32,9 @@ import java.util.List;
  */
 public class GankMainFragment extends BaseCommenListFragment {
     public static String PAGE_SIZE = "20";
+
+    private GankMainAdapter mAdapter = new GankMainAdapter();
+    private ArrayList<String> urlList = new ArrayList<>();
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -41,7 +47,7 @@ public class GankMainFragment extends BaseCommenListFragment {
 
     @Override
     protected BaseCommenListAdapter initAdapter() {
-        return new GankMainAdapter();
+        return mAdapter;
     }
 
     @Override
@@ -68,12 +74,22 @@ public class GankMainFragment extends BaseCommenListFragment {
         public GankViewHolder(View itemView) {
             super(itemView);
             simpleDraweeView = (SimpleDraweeView) itemView.findViewById(R.id.gank_img);
+            simpleDraweeView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ViewPagerActivity.startActivity(getActivity(), urlList);
+                }
+            });
         }
     }
 
     class GankParser implements IResponseParser<ResultsList> {
         @Override
         public CommentListResponse parse(ResultsList result) {
+            for(int i = 0; i < result.getResults().size(); i++) {
+                urlList.add(result.getResults().get(i).getUrl());
+            }
+
             CommentListResponse response = new CommentListResponse();
             response.setData(result.getResults());
             response.setHasMore(true);
