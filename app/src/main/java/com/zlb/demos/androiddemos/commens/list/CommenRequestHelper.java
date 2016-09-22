@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.zlb.demos.androiddemos.net.OkHttpManager;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -15,6 +16,9 @@ import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * @author zhanglibin
@@ -117,6 +121,25 @@ public class CommenRequestHelper {
             headerBuilder.add(key, headers.get(key));
         }
         builder.headers(headerBuilder.build());
+    }
+
+    public Observable<Response> rxExecute() {
+        return Observable.create(new Observable.OnSubscribe<Response>() {
+            @Override
+            public void call(Subscriber<? super Response> subscriber) {
+                try {
+                    Response response = OkHttpManager.getInstance().getOkHttpClient().newCall(mRequest).execute();
+                    if(response.isSuccessful()) {
+                        subscriber.onNext(response);
+                        subscriber.onCompleted();
+                    }
+                    subscriber.onError(new Exception(""));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                }
+            }
+        });
     }
 
 }

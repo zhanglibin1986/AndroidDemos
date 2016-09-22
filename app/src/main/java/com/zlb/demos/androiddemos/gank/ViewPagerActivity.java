@@ -6,31 +6,36 @@ import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
+import android.widget.TextView;
+import butterknife.BindView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
 import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.imagepipeline.image.ImageInfo;
 import com.zlb.demos.androiddemos.R;
-import com.zlb.demos.androiddemos.fresco.FrescoManager;
-import com.zlb.demos.androiddemos.utils.UrlUtil;
-
+import com.zlb.demos.androiddemos.base.BaseActivity;
 import java.util.ArrayList;
-
 import me.relex.circleindicator.CircleIndicator;
 import me.relex.photodraweeview.PhotoDraweeView;
 
-public class ViewPagerActivity extends AppCompatActivity {
+public class ViewPagerActivity extends BaseActivity {
 
+    @BindView(R.id.current_page) protected TextView currentPage;
+    @BindView(R.id.total_page) protected TextView totalPage;
 
-    public static void startActivity(Context context, ArrayList<String> imageUrls) {
+    public static final String TAG = "pager";
+
+    public static void startActivity(Context context, ArrayList<String> imageUrls, int position) {
         Intent intent = new Intent(context, ViewPagerActivity.class);
         intent.putStringArrayListExtra("urls", imageUrls);
+        intent.putExtra("position", position);
         context.startActivity(intent);
     }
 
@@ -53,8 +58,27 @@ public class ViewPagerActivity extends AppCompatActivity {
         MultiTouchViewPager viewPager = (MultiTouchViewPager) findViewById(R.id.view_pager);
         viewPager.setAdapter(mAdapter);
         indicator.setViewPager(viewPager);
-        ArrayList<String> mDrawables = new ArrayList<>();
         mAdapter.setData(getIntent().getStringArrayListExtra("urls"));
+        totalPage.setText("" + mAdapter.getCount());
+        viewPager.setCurrentItem(getIntent().getIntExtra("position", 0));
+        currentPage.setText("" + ((getIntent().getIntExtra("position", 0) + 1)));
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                currentPage.setText("" + (position + 1));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     public class DraweePagerAdapter extends PagerAdapter {
@@ -72,6 +96,7 @@ public class ViewPagerActivity extends AppCompatActivity {
 
         @Override
         public boolean isViewFromObject(View view, Object object) {
+            Log.d(TAG, "isViewFromObject: " + (view == object));
             return view == object;
         }
 
@@ -82,7 +107,9 @@ public class ViewPagerActivity extends AppCompatActivity {
 
         @Override
         public Object instantiateItem(ViewGroup viewGroup, int position) {
-            final PhotoDraweeView photoDraweeView = new PhotoDraweeView(viewGroup.getContext());
+//            final PhotoDraweeView photoDraweeView = new PhotoDraweeView(viewGroup.getContext());
+            PhotoDraweeView photoDraweeView = (PhotoDraweeView)LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_photo_pager_item, viewGroup, false);
+            Log.d(TAG, "instantiateItem: instantiate item position = " + position);
             photoDraweeView.setScaleType(ImageView.ScaleType.FIT_XY);
 
 //            FrescoManager.loadUrl(mDrawables.get(position)).into(photoDraweeView);
@@ -97,6 +124,7 @@ public class ViewPagerActivity extends AppCompatActivity {
                     if (imageInfo == null) {
                         return;
                     }
+                    Log.d(TAG, "onFinalImageSet: image width = " + imageInfo.getWidth() + " , height = " + imageInfo.getHeight());
                     photoDraweeView.update(imageInfo.getWidth(), imageInfo.getHeight());
                 }
             });

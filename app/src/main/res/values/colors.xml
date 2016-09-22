@@ -16,4 +16,7 @@
     <color name="themeColor">#4ABDCC</color>
     <color name="browseModeContentBg">#4C000000</color>
     <drawable name="rapple_03">#2E9DAB</drawable>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="float_color1">#EC6C46</color>
 </resources>

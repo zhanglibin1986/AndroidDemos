@@ -12,7 +12,7 @@ import com.zlb.demos.androiddemos.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
@@ -24,20 +24,20 @@ import rx.schedulers.Schedulers;
 
 public class ObservableDemoActivity extends AppCompatActivity {
 
-    @Bind(R.id.text1)
+    @BindView(R.id.text1)
     TextView textView1;
-    @Bind(R.id.text2)
+    @BindView(R.id.text2)
     TextView textView2;
-    @Bind(R.id.text3)
+    @BindView(R.id.text3)
     TextView textView3;
-    @Bind(R.id.text5)
+    @BindView(R.id.text5)
     TextView textView5;
-    @Bind(R.id.text6)
+    @BindView(R.id.text6)
     TextView textView6;
-    @Bind(R.id.text7)
+    @BindView(R.id.text7)
     TextView textView7;
     ArrayList<Integer> list;
-    @Bind(R.id.text8)
+    @BindView(R.id.text8)
     TextView textView8;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

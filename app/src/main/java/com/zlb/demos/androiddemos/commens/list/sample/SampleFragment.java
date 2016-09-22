@@ -1,5 +1,8 @@
 package com.zlb.demos.androiddemos.commens.list.sample;
 
+import android.annotation.TargetApi;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,9 +21,12 @@ import com.zlb.demos.androiddemos.commens.list.CommenListRequest;
 import com.zlb.demos.androiddemos.commens.list.CommentListResponse;
 import com.zlb.demos.androiddemos.commens.list.IResponseParser;
 import com.zlb.demos.androiddemos.fresco.FrescoManager;
+import com.zlb.demos.androiddemos.utils.Util;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.OnItemClick;
 
 /**
  * @author zhanglibin
@@ -29,6 +35,7 @@ import java.util.List;
  * @date 16/8/24下午2:50
  * @Description
  */
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class SampleFragment extends BaseCommenListFragment {
     @Override
     protected BaseCommenListAdapter initAdapter() {
@@ -71,6 +78,29 @@ public class SampleFragment extends BaseCommenListFragment {
             if(!TextUtils.isEmpty(item.getCover_image_default())) {
                 FrescoManager.loadUrl(item.getCover_image_default()).into(viewHolder.image);
             }
+            viewHolder.image.setTransitionName("");
+            viewHolder.image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    viewHolder.image.setTransitionName("test");
+
+                    int totalType = 4;
+                    Intent intent = null;
+                    if((position + totalType) % totalType == 0) {
+                        intent = new Intent(getActivity(), SampleActivity2.class);
+                    } else if((position + totalType) % totalType == 1) {
+                        intent = new Intent(getActivity(), SampleActivity3.class);
+                    } else if((position + totalType) % totalType == 2) {
+                        intent = new Intent(getActivity(), SampleActivity4.class);
+                    } else if((position + totalType) % totalType == 3) {
+                        intent = new Intent(getActivity(), SampleActivity5.class);
+                    }
+                    intent.putExtra("url", item.getCover_image_default());
+                    Util.launch(getActivity(), intent, view, "test");
+
+                }
+            });
+
         }
     }
 
@@ -97,8 +127,8 @@ public class SampleFragment extends BaseCommenListFragment {
                     datas.add(tripData);
                 }
             }
-            response.setData(datas);
 
+            response.setData(datas);
             String next_start = featuredAll.getNext_start();
             response.setHasMore(!"-1".equals(next_start));
             response.setNextStart(next_start);

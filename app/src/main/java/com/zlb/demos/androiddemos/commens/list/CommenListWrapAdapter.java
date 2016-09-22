@@ -34,6 +34,7 @@ public class CommenListWrapAdapter extends RecyclerView.Adapter implements BaseC
 
     public CommenListWrapAdapter(Context context, BaseCommenListAdapter delegate, IBaseRecyclerAdapterController controller) {
         this.delegate = delegate;
+        this.delegate.setDataChangeListener(this);
         this.mContext = context;
         this.customLastLayoutId = delegate.getCustomLastLayoutId();
         this.mAdapterController = controller;
@@ -147,6 +148,10 @@ public class CommenListWrapAdapter extends RecyclerView.Adapter implements BaseC
     @Override
     public void onDataChanged() {
         syncData();
+    }
+
+    public BaseCommenListAdapter getDelegateAdapter() {
+        return delegate;
     }
 
 

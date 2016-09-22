@@ -66,7 +66,19 @@ public class GankMainFragment extends BaseCommenListFragment {
             GankViewHolder gankViewHolder = (GankViewHolder) holder;
             gankViewHolder.simpleDraweeView.getLayoutParams().width = DisplayUtils.getScreenWidth(getActivity()) / 2 - DisplayUtils.dipToPx(getActivity(), 8);
             FrescoManager.loadUrl(datas.get(position).getUrl()).into(gankViewHolder.simpleDraweeView);
+            gankViewHolder.simpleDraweeView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ViewPagerActivity.startActivity(getActivity(), urlList, position);
+                }
+            });
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        super.onRefresh();
+
     }
 
     class GankViewHolder extends RecyclerView.ViewHolder {
@@ -74,12 +86,6 @@ public class GankMainFragment extends BaseCommenListFragment {
         public GankViewHolder(View itemView) {
             super(itemView);
             simpleDraweeView = (SimpleDraweeView) itemView.findViewById(R.id.gank_img);
-            simpleDraweeView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ViewPagerActivity.startActivity(getActivity(), urlList);
-                }
-            });
         }
     }
 

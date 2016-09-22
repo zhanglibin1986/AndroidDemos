@@ -19,4 +19,11 @@
     <dimen name="default_corner_radius">4dp</dimen>
     <dimen name="default_shadow_radius">4dp</dimen>
     <dimen name="pagesMargin">50dp</dimen>
+    <dimen name="photo_page_size">26sp</dimen>
+
+    <integer name="anim_duration_very_long">300</integer>
+    <integer name="anim_duration_long">300</integer>
+    <integer name="anim_duration_medium">300</integer>
+    <dimen name="app_bar_height">220dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>

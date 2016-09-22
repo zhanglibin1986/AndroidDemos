@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.zlb.demos.androiddemos.material.RevealActivity">
+
+    <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:theme="@style/AppTheme.AppBarOverlay">-->
+
+        <!--<android.support.v7.widget.Toolbar-->
+            <!--android:id="@+id/toolbar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="?attr/actionBarSize"-->
+            <!--android:background="?attr/colorPrimary"-->
+            <!--app:popupTheme="@style/AppTheme.PopupOverlay" />-->
+
+    <!--</android.support.design.widget.AppBarLayout>-->
+
+    <RelativeLayout
+        android:id="@+id/revel_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sample2_banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            fresco:viewAspectRatio="1.50"
+            android:transitionName="test"
+            fresco:actualImageScaleType="fitXY"
+            />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_dialog_email"
+            app:backgroundTint="#EC6C46"
+            android:layout_below="@id/sample2_banner"
+            android:layout_marginTop="-25dp"
+            android:layout_marginRight="25dp"
+            android:layout_alignParentRight="true"
+            />
+        <TextView
+            android:id="@+id/sample2_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:paddingLeft="15dp"
+            android:textSize="20sp"
+            android:text="landing page"
+            android:textColor="@android:color/black"
+            android:background="@android:color/darker_gray"
+            android:gravity="center_vertical"
+            android:layout_below="@id/sample2_banner"
+            android:visibility="gone"
+            />
+        <RelativeLayout
+            android:id="@+id/color_stock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_below="@id/sample2_subtitle"
+            >
+            <View
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@android:color/holo_red_light"
+                />
+
+            <View
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:background="@android:color/holo_blue_light"
+                />
+
+            <View
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:background="@android:color/holo_green_light"
+                />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/test1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/color_stock"
+            android:text="材料设计是专为设计适用于多个平台和设备的视觉、运动与互动效果而制定的综合指南。 如果要在您的 Android 应用中使用材料设计，请遵循材料设计规范内所述的指导方针，并使用 Android 5.0（API 级别 21）所提供的新组件与功能。"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/test1"
+            android:text="材料设计是专为设计适用于多个平台和设备的视觉、运动与互动效果而制定的综合指南。 如果要在您的 Android 应用中使用材料设计，请遵循材料设计规范内所述的指导方针，并使用 Android 5.0（API 级别 21）所提供的新组件与功能。"
+            />
+
+    </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>
+
+

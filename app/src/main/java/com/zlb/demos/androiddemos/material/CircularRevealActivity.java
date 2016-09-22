@@ -4,23 +4,19 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-
+import butterknife.BindView;
+import butterknife.OnClick;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.zlb.demos.androiddemos.R;
 import com.zlb.demos.androiddemos.base.BaseActivity;
-import com.zlb.demos.androiddemos.utils.Util;
-
-import butterknife.Bind;
-import butterknife.OnClick;
 
 public class CircularRevealActivity extends BaseActivity {
     private static final int ANIM_DURATION = 300;
-    @Bind(R.id.m_circle) protected SimpleDraweeView circleView;
-    @Bind(R.id.m_rectImage) protected SimpleDraweeView rectView;
+    @BindView(R.id.m_circle) protected SimpleDraweeView circleView;
+    @BindView(R.id.m_rectImage) protected SimpleDraweeView rectView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

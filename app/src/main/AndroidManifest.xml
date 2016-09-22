@@ -65,15 +65,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".commens.list.sample.SampleActivity"
-            android:label="SampleActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".material.TouchFeedbackActivity"
             android:label="material/rapple">
             <intent-filter>
@@ -82,17 +73,7 @@
                 <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".material.TransitionSourceActivity"
-            android:label="TransitionDemo1">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".material.TransitioinDestinationActivity"></activity>
-
+        <activity android:name=".material.TransitioinDestinationActivity" />
         <activity
             android:name=".material.CircularRevealActivity"
             android:label="CircularRevealActivity">
@@ -102,22 +83,127 @@
                 <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".gank.GankMainActivity"
-            android:label="Gank-io"
-            >
+        <activity
+            android:name=".gank.GankMainActivity"
+            android:label="Gank-io">
 
             <!-- android:label="Gank-io" -->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="com.android.zlb.demos_SAMPLE_CODE" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".gank.ViewPagerActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".material.RevealActivity"
+            android:label="Reveal Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".material.DesitinationActivity2"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_desitination2"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".commens.list.sample.SampleActivity2"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".commens.list.sample.SampleActivity3"
+            android:label="@string/title_activity_sample3"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".commens.list.sample.SampleActivity"
+            android:label="SampleActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        <activity android:name=".gank.ViewPagerActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+                <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".commens.list.sample.SampleActivity4" />
+        <activity
+            android:name=".material.ViewStateActivity"
+            android:label="ViewStateActivity"
+            android:theme="@style/BaseAppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".material.ViewStateActivity2"
+            android:label="ViewStateActivity2">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".material.CurvedMotionActivity"
+            android:label="CurvedMotionActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".apidemos.PathActivity"
+            android:label="PathActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".material.PathInterpolatorActivity"
+            android:label="PathInterpolatorActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".material.transition.SceneActivity" />
+        <activity android:name=".commens.list.sample.SampleActivity5" />
+        <activity
+            android:name=".material.TransitionSourceActivity"
+            android:label="TransitionDemo1">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".material.ArcActivity2" />
+        <activity
+            android:name=".material.ArcActivity1"
+            android:label="ArcActivity1">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".custom.view.CustomViewActivity"
+            android:label="CustomViewActivity"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="com.android.zlb.demos_SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

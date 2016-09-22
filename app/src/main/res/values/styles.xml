@@ -30,6 +30,7 @@
     </style>
 
     <style name="BaseAppTheme" parent="AppTheme" />
+
     <style name="personal_setting_back_btn_style">
         <item name="android:layout_width">56dp</item>
         <item name="android:layout_height">match_parent</item>
@@ -39,5 +40,35 @@
         <item name="android:src">@drawable/icon_back</item>
         <item name="android:background">@drawable/breadtrip_toolbar_btn_bg_selector</item>
     </style>
+
+    <style name="FullscreenTheme" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <style name="sample_relative_style">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+
+    <style name="sample_linear_style">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+
+
 
 </resources>

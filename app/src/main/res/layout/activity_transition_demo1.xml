@@ -16,6 +16,19 @@
         android:layout_height="100dp"
         fresco:actualImageScaleType="fitXY"
         fresco:roundAsCircle="true"
-        android:transitionName="@string/trans_imagedemo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        />
+    <ImageView
+        android:id="@+id/demo1_image"
+        android:layout_width="230dp"
+        android:layout_height="150dp"
+        android:src="@drawable/image"
+        android:scaleType="fitXY"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:transitionName="transition_name_demo"
         />
 </RelativeLayout>
+
+    <!--android:transitionName="@string/trans_imagedemo"-->

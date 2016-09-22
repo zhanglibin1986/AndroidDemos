@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -15,7 +14,6 @@ import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -28,22 +26,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
-
+import butterknife.BindView;
 import com.jakewharton.rxbinding.support.design.widget.RxNavigationView;
 import com.jakewharton.rxbinding.view.RxView;
 import com.zlb.demos.androiddemos.R;
 import com.zlb.demos.androiddemos.base.BaseActivity;
-
 import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action1;
@@ -51,15 +44,15 @@ import rx.functions.Func1;
 
 public class MainActivity extends BaseActivity {
     public static String CATEGORY_DEMOS = "com.android.zlb.demos_SAMPLE_CODE";
-    @Bind(R.id.main_list) protected RecyclerView recyclerView;
-    @Bind(R.id.toolbar) protected Toolbar toolbar;
-    @Bind(R.id.fab) protected FloatingActionButton fab;
-    @Bind(R.id.drawer_layout) protected DrawerLayout drawer;
-    @Bind(R.id.nav_view) protected NavigationView navigationView;
+    @BindView(R.id.main_list) protected RecyclerView recyclerView;
+    @BindView(R.id.toolbar) protected Toolbar toolbar;
+    @BindView(R.id.fab) protected FloatingActionButton fab;
+    @BindView(R.id.drawer_layout) protected DrawerLayout drawer;
+    @BindView(R.id.nav_view) protected NavigationView navigationView;
 
     private HomeAdapter recycleListAdapter;
     private Intent lastedActivity;
-    public static final boolean launchLastActivity = true;
+    public static final boolean launchLastActivity = false;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override

@@ -14,10 +14,16 @@
         android:layout_width="400dp"
         android:layout_height="400dp"
         fresco:actualImageScaleType="fitXY"
-        fresco:placeholderImage="@drawable/image"
         fresco:placeholderImageScaleType="fitXY"
         android:transitionName="@string/trans_imagedemo"
         android:layout_centerInParent="true"
         />
-
+    <ImageView
+        android:id="@+id/demo1_image"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:src="@drawable/image"
+        android:scaleType="fitXY"
+        android:transitionName="transition_name_demo"
+        />
 </RelativeLayout>
