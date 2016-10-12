@@ -1,6 +1,7 @@
 package com.zlb.demos.androiddemos.net;
 
 
+import android.database.Observable;
 import android.support.annotation.NonNull;
 
 import com.zlb.demos.androiddemos.commens.list.CommenListRequest;
@@ -14,6 +15,7 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import rx.Subscriber;
 
 /**
  * @author zhanglibin
@@ -49,6 +51,21 @@ public class OkHttpManager {
     public void request(Request request, Callback callback) {
         Call call = okHttpClient.newCall(request);
         call.enqueue(callback);
+    }
+
+    public rx.Observable<Response> request(Request request) {
+        return rx.Observable.create(new rx.Observable.OnSubscribe<Response>() {
+            @Override
+            public void call(Subscriber<? super Response> subscriber) {
+                try {
+                    subscriber.onNext(okHttpClient.newCall(request).execute());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                }
+                subscriber.onCompleted();
+            }
+        });
     }
 
     public void execute(final CommenListRequest commenListRequest, Request okRequest, @NonNull final List<OkRequestListener> listeners) {

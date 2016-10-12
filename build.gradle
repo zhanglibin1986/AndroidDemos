@@ -17,6 +17,8 @@ buildscript {
         // in the individual module build.gradle files
         //for Butter Knife
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        //for greenDao
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.1.1'
     }
 }
 

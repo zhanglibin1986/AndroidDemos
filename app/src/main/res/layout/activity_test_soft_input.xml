@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zlb.demos.androiddemos.commens.keyboard.SoftInputLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_test_soft_input"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.zlb.demos.androiddemos.testdemos.TestSoftInputActivity"
+    >
+
+    <EditText
+        android:id="@+id/sign_edit_phone"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="1dp"
+        android:gravity="center_vertical"
+        android:hint="输入手机号"
+        android:inputType="phone"
+        android:maxLength="11"
+        android:textColorHint="#c9c9c9"
+        android:textSize="15sp"
+        />
+
+    <!-- 白色区域 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/sign_edit_phone"
+        android:layout_marginTop="48dp"
+        android:background="@color/color_ffDFD3B6"
+        android:clickable="true"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        >
+        <TextView
+            android:id="@+id/sign_go_login"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textSize="12sp"
+            android:textColor="#c9c9c9"
+            android:text="去登陆"
+            android:linksClickable="true"
+            android:autoLink="web"
+            android:layout_marginBottom="22dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:visibility="visible"
+            />
+    </RelativeLayout>
+
+</com.zlb.demos.androiddemos.commens.keyboard.SoftInputLayout>

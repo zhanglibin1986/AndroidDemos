@@ -1,6 +1,11 @@
 package com.zlb.demos.androiddemos.rx.demos;
 
+import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import com.zlb.demos.androiddemos.base.BaseFragment;
 import com.zlb.demos.androiddemos.net.OkHttpManager;
 import java.io.IOException;
 import okhttp3.Call;
@@ -14,20 +19,21 @@ import okhttp3.Response;
  * @since 16/9/21 下午11:48
  */
 
-public class HtmlDemo {
+public class HtmlDemo extends BaseFragment {
     private String TEST_URL_1 = "http://www.mzitu.com/";
 
-    public void test(String url) {
-        OkHttpManager.getInstance().request(url, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d("html", "-------onFailure");
-            }
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        return null;
+    }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Log.d("html", "--" + response.toString());
-            }
-        });
+    @Override
+    protected void initView() {
+
+    }
+
+    public void test(String url) {
+
     }
 }

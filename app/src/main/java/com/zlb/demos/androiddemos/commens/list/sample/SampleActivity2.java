@@ -31,9 +31,9 @@ public class SampleActivity2 extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-//        getWindow().setEnterTransition( new Slide() );
-//        getWindow().setExitTransition( new Slide() );
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setEnterTransition( new Explode() );
+        getWindow().setExitTransition( new Explode() );
 
 
         setContentView(R.layout.activity_sample2);

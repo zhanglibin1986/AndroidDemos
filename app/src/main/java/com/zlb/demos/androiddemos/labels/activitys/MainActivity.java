@@ -33,6 +33,7 @@ import com.zlb.demos.androiddemos.R;
 import com.zlb.demos.androiddemos.base.BaseActivity;
 import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -58,11 +59,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        getWindow().setAllowEnterTransitionOverlap(true);
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-        getWindow().setEnterTransition( new Explode() );
-        getWindow().setExitTransition( new Explode() );
 
         setContentView(R.layout.activity_main);
         setSupportActionBar(toolbar);
@@ -121,9 +117,9 @@ public class MainActivity extends BaseActivity {
                            }
                 );
 
-//        Intent intent = getIntent();
-//        String path = intent.getStringExtra("com.example.android.apis.Path");
-//        recycleListAdapter.setDatas(getData(path));
+        //Intent intent = getIntent();
+        //String path = intent.getStringExtra("com.example.android.apis.Path");
+        //recycleListAdapter.setDatas(getData(path));
     }
 
 
@@ -245,9 +241,9 @@ public class MainActivity extends BaseActivity {
         }
 
 
-        lastedActivity = activityIntent(list.get(list.size() -1).activityInfo.applicationInfo.packageName, list.get(list.size() -1).activityInfo.name);
+        //lastedActivity = activityIntent(list.get(list.size() -1).activityInfo.applicationInfo.packageName, list.get(list.size() -1).activityInfo.name);
 
-//        Collections.sort(myData, sDisplayNameComparator);
+        Collections.sort(myData, sDisplayNameComparator);
 
         return myData;
     }

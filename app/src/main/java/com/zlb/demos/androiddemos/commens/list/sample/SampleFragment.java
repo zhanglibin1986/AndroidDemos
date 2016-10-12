@@ -1,6 +1,7 @@
 package com.zlb.demos.androiddemos.commens.list.sample;
 
 import android.annotation.TargetApi;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -96,6 +97,7 @@ public class SampleFragment extends BaseCommenListFragment {
                         intent = new Intent(getActivity(), SampleActivity5.class);
                     }
                     intent.putExtra("url", item.getCover_image_default());
+                    //startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
                     Util.launch(getActivity(), intent, view, "test");
 
                 }
