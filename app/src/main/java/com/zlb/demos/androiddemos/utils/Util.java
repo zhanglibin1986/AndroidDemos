@@ -11,6 +11,8 @@ import android.support.v4.util.Pair;
 import android.view.View;
 import android.widget.Toast;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -87,6 +89,25 @@ public class Util {
             throw new NullPointerException();
         }
         return reference;
+    }
+
+    public static String getMD5String(String text) {
+        MessageDigest md;
+        StringBuffer md5 = new StringBuffer();
+        try {
+            md = MessageDigest.getInstance("MD5");
+            if (md != null && text != null) {
+                md.update(text.getBytes());
+                byte[] digest = md.digest();
+                for (int i = 0; i < digest.length; i++) {
+                    md5.append(Character.forDigit((digest[i] & 0xF0) >> 4, 16));
+                    md5.append(Character.forDigit((digest[i] & 0xF), 16));
+                }
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return md5.toString();
     }
 
 }

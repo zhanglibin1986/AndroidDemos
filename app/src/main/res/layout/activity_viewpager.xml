@@ -3,20 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="?colorPrimary"
-        android:theme="@style/AppTheme"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="@string/view_pager"
-        app:navigationIcon="@drawable/icon_back"/>
-
-
     <com.zlb.demos.androiddemos.gank.MultiTouchViewPager
         android:id="@+id/view_pager"
-        android:layout_marginTop="?actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

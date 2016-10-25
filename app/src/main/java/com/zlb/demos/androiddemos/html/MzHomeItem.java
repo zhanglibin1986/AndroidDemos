@@ -11,6 +11,7 @@ public class MzHomeItem {
     private String detailUrl;
     private String title;
     private String picUrl;
+    private boolean isStar;
 
     public String getDetailUrl() {
         return detailUrl;
@@ -36,12 +37,21 @@ public class MzHomeItem {
         this.picUrl = picUrl;
     }
 
+    public boolean isStar() {
+        return isStar;
+    }
+
+    public void setStar(boolean star) {
+        isStar = star;
+    }
+
     @Override
     public String toString() {
         return "MzHomeItem{" +
                 "detailUrl='" + detailUrl + '\'' +
                 ", title='" + title + '\'' +
                 ", picUrl='" + picUrl + '\'' +
+                ", isStar=" + isStar +
                 '}';
     }
 }

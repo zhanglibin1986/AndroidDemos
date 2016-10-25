@@ -1,19 +1,42 @@
 package com.zlb.demos.androiddemos.html;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Animatable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import butterknife.BindView;
+import com.facebook.common.logging.FLog;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.drawee.controller.ControllerListener;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.imagepipeline.image.QualityInfo;
 import com.zlb.demos.androiddemos.R;
 import com.zlb.demos.androiddemos.base.BaseFragment;
 import com.zlb.demos.androiddemos.fresco.FrescoManager;
+import com.zlb.demos.androiddemos.fresco.ImageResponseListener;
+import com.zlb.demos.androiddemos.gank.ViewPagerActivity;
 import com.zlb.demos.androiddemos.net.OkHttpManager;
+import com.zlb.demos.androiddemos.utils.BitmapUtil;
+import com.zlb.demos.androiddemos.utils.DisplayUtils;
+import com.zlb.demos.androiddemos.utils.DownloadUtil;
+import com.zlb.demos.androiddemos.utils.Logger;
 import com.zlb.demos.androiddemos.utils.PatternUtil;
+import com.zlb.demos.androiddemos.utils.Util;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +73,8 @@ public class HtmlDetailFragment extends BaseFragment {
     private int index = 2;
     private String url;
 
+    private Handler handler;
+
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -74,6 +99,7 @@ public class HtmlDetailFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
         this.url = getArguments().getString("url");
         loadUrl(url);
+        handler = new Handler();
     }
 
     private void loadUrl(String url) {
@@ -96,14 +122,15 @@ public class HtmlDetailFragment extends BaseFragment {
                 .doOnNext(new Action1<String>() {
                     @Override
                     public void call(String s) {
-                                if (total == 0) {
-                                    String t = PatternUtil.getPatternLists(s,
-                                            PatternUtil.PATTERN_MZ_HOME_DETAIL_TOTAL_PAGE).get(0);
-                                    Log.d("rx", " total page = " + t);
-                                    String page = s.substring("<span>".length(), s.length() - "</span>".length());
-                                    Log.d("rx", " total page --- = " + page);
-                                    //total = Integer.valueOf(page);
-                                }
+                        if (total == 0) {
+                            String t = PatternUtil.getPatternLists(s,
+                                    PatternUtil.PATTERN_MZ_HOME_DETAIL_TOTAL_PAGE).get(0);
+                            Log.d("rx", " total page = " + t);
+                            String page =
+                                    s.substring("<span>".length(), s.length() - "</span>".length());
+                            Log.d("rx", " total page --- = " + page);
+                            //total = Integer.valueOf(page);
+                        }
                         Log.d("rx", "doOnNext ---- total = " + total);
                     }
                 })
@@ -139,9 +166,9 @@ public class HtmlDetailFragment extends BaseFragment {
                     public void onCompleted() {
                         Log.d("rx", "onCompleted");
                         Log.d("rx", "doOnCompleted total = " + total + " , index = " + index);
-                                if (index < total) {
-                                    loadUrl(getIndexUrl(index++));
-                                }
+                        if (index < total) {
+                            loadUrl(getIndexUrl(index++));
+                        }
                     }
 
                     @Override
@@ -159,7 +186,7 @@ public class HtmlDetailFragment extends BaseFragment {
     }
 
     class DetailAdapter extends RecyclerView.Adapter {
-        private List<String> datas = new ArrayList<>();
+        private ArrayList<String> datas = new ArrayList<>();
 
         public void setData(List<String> data) {
             datas.clear();
@@ -182,7 +209,46 @@ public class HtmlDetailFragment extends BaseFragment {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             HtmlDetailFragment.HolderDetail viewHolder = (HtmlDetailFragment.HolderDetail) holder;
-            FrescoManager.loadUrl(datas.get(position)).into(viewHolder.image);
+            //FrescoManager.loadUrl(datas.get(position)).into(viewHolder.image);
+
+            //viewHolder.image.setImageURI(Uri.parse(datas.get(position)));
+
+            Uri uri = Uri.parse(datas.get(position));
+
+            DraweeController controller = Fresco.newDraweeControllerBuilder()
+                    .setControllerListener(new BaseControllerListener<ImageInfo>() {
+                        @Override
+                        public void onFinalImageSet(String id,
+                                @javax.annotation.Nullable ImageInfo imageInfo,
+                                @javax.annotation.Nullable Animatable animatable) {
+                            super.onFinalImageSet(id, imageInfo, animatable);
+                            int w = imageInfo.getWidth();
+                            int h = imageInfo.getHeight();
+                            Logger.d("image", "w = " + w + " , h = " + h);
+                            viewHolder.image.getLayoutParams().width = DisplayUtils.getScreenWidth(getActivity());
+                            viewHolder.image.getLayoutParams().height = (int)(h * (1.0 * DisplayUtils.getScreenWidth(getActivity())) / w);
+                        }
+                    })
+                    .setUri(uri)
+                    // other setters
+                    .build();
+
+            //ImagePipeline imagePipeline = Fresco.getImagePipeline();
+
+            viewHolder.image.setController(controller);
+
+            viewHolder.image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ViewPagerActivity.startActivity(getActivity(), datas, position);
+                }
+            });
+            viewHolder.download.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    savePhoto(datas.get(position));
+                }
+            });
         }
 
         @Override
@@ -193,10 +259,86 @@ public class HtmlDetailFragment extends BaseFragment {
 
     class HolderDetail extends RecyclerView.ViewHolder {
         SimpleDraweeView image;
+        Button download;
 
         public HolderDetail(View itemView) {
             super(itemView);
             image = ((SimpleDraweeView) itemView.findViewById(R.id.mz_detail_image));
+            download = (Button) itemView.findViewById(R.id.mz_detail_down);
         }
     }
+
+    /**
+     * 保存图片到面包旅行相册
+     */
+    public void savePhoto(final String url) {
+        FrescoManager.loadUrl(url).into(getActivity(), new ImageResponseListener() {
+            @Override
+            public void onSuccess(final Bitmap bitmap) {
+                final Bitmap newBitmap = BitmapUtil.createNewShareBitmap(bitmap);
+                Log.e("demo", "onSuccess begin download");
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        File file = DownloadUtil.getDownloadImagePath();
+                        File myCaptureFile = new File(
+                                file.getPath() + File.separator + Util.getMD5String(url) + ".jpg");
+                        if (myCaptureFile.exists()) {
+                            myCaptureFile.delete();
+                            Logger.e("file is exists");
+                        }
+                        try {
+                            if (myCaptureFile.createNewFile()) {
+                                FileOutputStream fos = new FileOutputStream(myCaptureFile);
+                                if (newBitmap != null && !newBitmap.isRecycled()) {
+                                    newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                                }
+                                fos.flush();
+                                fos.close();
+                            }
+                            String path = myCaptureFile.getAbsolutePath();
+                            if (!TextUtils.isEmpty(path)) {
+                                DownloadUtil.updateMedia(getActivity(), path);
+                                Util.showToast(getActivity(),
+                                        getString(R.string.tv_save_photo_path, path));
+                                Log.e("demo", "download success");
+                            }
+                        } catch (IOException e) {
+                            Log.e("demo", "download failed");
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+    }
+
+    ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
+        @Override
+        public void onFinalImageSet(String id, @Nullable ImageInfo imageInfo,
+                @Nullable Animatable anim) {
+            if (imageInfo == null) {
+                return;
+            }
+            QualityInfo qualityInfo = imageInfo.getQualityInfo();
+            FLog.d("Final image received! " + "Size %d x %d",
+                    "Quality level %d, good enough: %s, full quality: %s", imageInfo.getWidth(),
+                    imageInfo.getHeight(), qualityInfo.getQuality(),
+                    qualityInfo.isOfGoodEnoughQuality(), qualityInfo.isOfFullQuality());
+            Logger.d("image",
+                    "width = " + imageInfo.getWidth() + " , height = " + imageInfo.getHeight());
+        }
+
+        @Override
+        public void onIntermediateImageSet(String id, @Nullable ImageInfo imageInfo) {
+        }
+
+        @Override
+        public void onFailure(String id, Throwable throwable) {
+        }
+    };
 }

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_c9c9c9"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <ImageButton
+            android:id="@+id/sign_back"
+            android:layout_width="82dp"
+            android:layout_height="82dp"
+            android:layout_marginTop="24dp"
+            android:background="@null"
+            android:padding="32dp"
+            app:srcCompat="@drawable/white_back"
+            />
+
+        <TextView
+            android:id="@+id/tv_signup_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:text="@string/signup"
+            android:textColor="@color/white"
+            android:textSize="27sp"
+            />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tv_signup_title"
+            android:layout_marginTop="48dp"
+            android:background="@color/white"
+            android:clickable="true"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            >
+            <!-- +86 手机号码 用户协议 -->
+            <RelativeLayout
+                android:id="@+id/container_sign_phone"
+                android:layout_width="match_parent"
+                android:layout_height="122dp"
+                android:paddingTop="21dp"
+                >
+                <include
+                    layout="@layout/fragment_login_phone_num"
+                    android:id="@+id/phone_layout"
+                    />
+                <!--手机号页面提示文案-->
+                <TextView
+                    android:id="@+id/sign_phone_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_below="@id/phone_layout"
+                    android:layout_marginTop="22dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/sign_user_contact"
+                    android:textSize="12sp"
+                    />
+                <TextView
+                    android:id="@+id/sign_tv_user_contact_link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_below="@id/phone_layout"
+                    android:layout_marginTop="22dp"
+                    android:layout_toRightOf="@id/sign_phone_text"
+                    android:gravity="center_vertical"
+                    android:text="@string/sign_user_contact_link"
+                    android:textColor="@color/color_4ABDCC"
+                    android:textSize="12sp"
+                    />
+            </RelativeLayout>
+
+            <!-- 底部button -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="80dp"
+                >
+                <Button
+                    android:id="@+id/sign_bottom_btn"
+                    android:text="@string/sign_send_code"
+                    style="@style/BtnStyle01"
+                    />
+                <ImageView
+                    android:id="@+id/loading_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/login_loading"
+                    android:visibility="gone"
+                    />
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+</ScrollView>

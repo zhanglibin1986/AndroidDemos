@@ -114,4 +114,13 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+
+    <string name="tv_save_photo_path">已保存到: %s</string>
+    <string name="download">下载</string>
+    <string name="signup">注册</string>
+
+    <string name="sign_user_contact">我已经阅读并同意</string>
+    <string name="sign_user_contact_link"><u>面包猎人用户协议。</u></string>
+    <string name="sign_send_code">发送验证码</string>
+    <string name="sign_phone_num">手机号码</string>
 </resources>

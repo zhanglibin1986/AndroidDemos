@@ -19,4 +19,32 @@
 
     <color name="black_overlay">#66000000</color>
     <color name="float_color1">#EC6C46</color>
+
+    <color name="color_DFD3B6">#DFD3B6</color>
+    <color name="color_E7DDC6">#E7DDC6</color>
+    <color name="color_4ABDCC">#4ABDCC</color>
+    <color name="color_424242">#424242</color>
+    <color name="color_99424242">#99424242</color>
+    <color name="color_FBFBFB">#FBFBFB</color>
+    <color name="color_5c5c5c">#5C5C5C</color>
+    <color name="color_c9c9c9">#C9C9C9</color>
+    <color name="color_e7e7e7">#E7E7E7</color>
+    <color name="color_e5e5e5">#E5E5E5</color>
+    <color name="color_bdbdbd">#BDBDBD</color>
+    <color name="color_f2f2f2">#f2f2f2</color>
+    <color name="color_fc5d7b">#fc5d7b</color>
+
+    <!--带透明度的颜色-->
+    <color name="black_10">#1A000000</color>
+    <color name="black_80">#CC000000</color>
+    <color name="black_90">#E6000000</color>
+    <color name="white_60">#99FFFFFF</color>
+
+
+    <color name="chh_tabtext_unselected">#9E9E9E</color>
+    <color name="chh_tabtext_selected">#424242</color>
+    <color name="chh_text_light">#BDBDBD</color>
+    <color name="btn_normal">#4ABDCC</color>
+    <color name="btn_pressed">#2E9DAB</color>
+    <color name="btn_disable">#994ABDCC</color>
 </resources>

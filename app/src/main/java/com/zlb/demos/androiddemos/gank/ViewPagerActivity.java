@@ -46,13 +46,6 @@ public class ViewPagerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewpager);
 
-        ((Toolbar) findViewById(R.id.toolbar)).setNavigationOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onBackPressed();
-                    }
-                });
 
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
         MultiTouchViewPager viewPager = (MultiTouchViewPager) findViewById(R.id.view_pager);

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,6 +16,7 @@ import com.zlb.demos.androiddemos.R;
 import com.zlb.demos.androiddemos.base.BaseFragment;
 import com.zlb.demos.androiddemos.commens.list.RecyclerViewMoreManager;
 import com.zlb.demos.androiddemos.fresco.FrescoManager;
+import com.zlb.demos.androiddemos.html.database.HtmlDbManager;
 import com.zlb.demos.androiddemos.net.OkHttpManager;
 import com.zlb.demos.androiddemos.utils.PatternUtil;
 import java.io.IOException;
@@ -87,7 +89,7 @@ public class HtmlFragment extends BaseFragment {
                 .subscribe(new Subscriber<List<String>>() {
                     @Override
                     public void onCompleted() {
-                        if(index < 100) {
+                        if(index < 20) {
                             loadData(TEST_URL + "/page/" + index++);
                         }
                     }
@@ -119,7 +121,6 @@ public class HtmlFragment extends BaseFragment {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new MyAdapter();
         recyclerView.setAdapter(adapter);
-
     }
 
     class MyAdapter extends RecyclerView.Adapter {
@@ -145,17 +146,31 @@ public class HtmlFragment extends BaseFragment {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
             ItemViewHolder viewHolder = (ItemViewHolder) holder;
-            FrescoManager.loadUrl(datas.get(position).getPicUrl()).into(viewHolder.image);
-            viewHolder.title.setText(datas.get(position).getTitle());
+            final MzHomeItem mzHomeItem = datas.get(position);
 
+            FrescoManager.loadUrl(mzHomeItem.getPicUrl()).into(viewHolder.image);
+            viewHolder.title.setText(mzHomeItem.getTitle());
 
             viewHolder.image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HtmlDetailActivity.launch(getActivity(), datas.get(position).getDetailUrl());
+                    HtmlDetailActivity.launch(getActivity(), mzHomeItem.getDetailUrl());
                 }
             });
 
+            viewHolder.star.setSelected(mzHomeItem.isStar());
+
+            viewHolder.star.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    viewHolder.star.setSelected(!mzHomeItem.isStar());
+                    if(mzHomeItem.isStar()) {
+                        HtmlDbManager.getInstance(getActivity()).saveImage(mzHomeItem);
+                    } else {
+                        HtmlDbManager.getInstance(getActivity()).deleteItem(mzHomeItem.getDetailUrl());
+                    }
+                }
+            });
         }
 
         @Override
@@ -167,10 +182,12 @@ public class HtmlFragment extends BaseFragment {
     class ItemViewHolder extends RecyclerView.ViewHolder {
         SimpleDraweeView image;
         TextView title;
+        ImageButton star;
         public ItemViewHolder(View itemView) {
             super(itemView);
             image = ((SimpleDraweeView) itemView.findViewById(R.id.mz_home_item_image));
             title = ((TextView) itemView.findViewById(R.id.mz_home_item_title));
+            star = (ImageButton) itemView.findViewById(R.id.mz_star);
         }
     }
 }

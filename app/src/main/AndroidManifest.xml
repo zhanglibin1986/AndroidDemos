@@ -3,6 +3,11 @@
     package="com.zlb.demos.androiddemos">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
 
     <application
         android:name=".AppApplication"
@@ -85,7 +90,9 @@
         </activity>
         <activity
             android:name=".gank.GankMainActivity"
-            android:label="Gank-io">
+            android:label="Gank-io"
+            android:theme="@style/FullScreen"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -235,6 +242,18 @@
 
                 <category android:name="com.android.zlb.demos_SAMPLE_CODE"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".testdemos.TestScrollEdit"
+            android:label="TestScrollEdit"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="com.android.zlb.demos_SAMPLE_CODE"/>
+            </intent-filter>
+
         </activity>
     </application>
 
