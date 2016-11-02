@@ -1,4 +1,4 @@
-package com.zlb.demos.androiddemos.html;
+package com.zlb.demos.androiddemos.html.mzitu;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Animatable;
@@ -28,6 +28,7 @@ import com.zlb.demos.androiddemos.base.BaseFragment;
 import com.zlb.demos.androiddemos.fresco.FrescoManager;
 import com.zlb.demos.androiddemos.fresco.ImageResponseListener;
 import com.zlb.demos.androiddemos.gank.ViewPagerActivity;
+import com.zlb.demos.androiddemos.html.DetailAdapter;
 import com.zlb.demos.androiddemos.net.OkHttpManager;
 import com.zlb.demos.androiddemos.utils.BitmapUtil;
 import com.zlb.demos.androiddemos.utils.DisplayUtils;
@@ -73,8 +74,6 @@ public class HtmlDetailFragment extends BaseFragment {
     private int index = 2;
     private String url;
 
-    private Handler handler;
-
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -90,7 +89,7 @@ public class HtmlDetailFragment extends BaseFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new DetailAdapter();
+        adapter = new DetailAdapter(getActivity());
         recyclerView.setAdapter(adapter);
     }
 
@@ -99,7 +98,6 @@ public class HtmlDetailFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
         this.url = getArguments().getString("url");
         loadUrl(url);
-        handler = new Handler();
     }
 
     private void loadUrl(String url) {
@@ -185,160 +183,4 @@ public class HtmlDetailFragment extends BaseFragment {
                 });
     }
 
-    class DetailAdapter extends RecyclerView.Adapter {
-        private ArrayList<String> datas = new ArrayList<>();
-
-        public void setData(List<String> data) {
-            datas.clear();
-            datas.addAll(data);
-            notifyDataSetChanged();
-        }
-
-        public void addData(String data) {
-            datas.add(data);
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getActivity())
-                    .inflate(R.layout.mz_detail_item, parent, false);
-            return new HtmlDetailFragment.HolderDetail(view);
-        }
-
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            HtmlDetailFragment.HolderDetail viewHolder = (HtmlDetailFragment.HolderDetail) holder;
-            //FrescoManager.loadUrl(datas.get(position)).into(viewHolder.image);
-
-            //viewHolder.image.setImageURI(Uri.parse(datas.get(position)));
-
-            Uri uri = Uri.parse(datas.get(position));
-
-            DraweeController controller = Fresco.newDraweeControllerBuilder()
-                    .setControllerListener(new BaseControllerListener<ImageInfo>() {
-                        @Override
-                        public void onFinalImageSet(String id,
-                                @javax.annotation.Nullable ImageInfo imageInfo,
-                                @javax.annotation.Nullable Animatable animatable) {
-                            super.onFinalImageSet(id, imageInfo, animatable);
-                            int w = imageInfo.getWidth();
-                            int h = imageInfo.getHeight();
-                            Logger.d("image", "w = " + w + " , h = " + h);
-                            viewHolder.image.getLayoutParams().width = DisplayUtils.getScreenWidth(getActivity());
-                            viewHolder.image.getLayoutParams().height = (int)(h * (1.0 * DisplayUtils.getScreenWidth(getActivity())) / w);
-                        }
-                    })
-                    .setUri(uri)
-                    // other setters
-                    .build();
-
-            //ImagePipeline imagePipeline = Fresco.getImagePipeline();
-
-            viewHolder.image.setController(controller);
-
-            viewHolder.image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ViewPagerActivity.startActivity(getActivity(), datas, position);
-                }
-            });
-            viewHolder.download.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    savePhoto(datas.get(position));
-                }
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return datas.size();
-        }
-    }
-
-    class HolderDetail extends RecyclerView.ViewHolder {
-        SimpleDraweeView image;
-        Button download;
-
-        public HolderDetail(View itemView) {
-            super(itemView);
-            image = ((SimpleDraweeView) itemView.findViewById(R.id.mz_detail_image));
-            download = (Button) itemView.findViewById(R.id.mz_detail_down);
-        }
-    }
-
-    /**
-     * 保存图片到面包旅行相册
-     */
-    public void savePhoto(final String url) {
-        FrescoManager.loadUrl(url).into(getActivity(), new ImageResponseListener() {
-            @Override
-            public void onSuccess(final Bitmap bitmap) {
-                final Bitmap newBitmap = BitmapUtil.createNewShareBitmap(bitmap);
-                Log.e("demo", "onSuccess begin download");
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        File file = DownloadUtil.getDownloadImagePath();
-                        File myCaptureFile = new File(
-                                file.getPath() + File.separator + Util.getMD5String(url) + ".jpg");
-                        if (myCaptureFile.exists()) {
-                            myCaptureFile.delete();
-                            Logger.e("file is exists");
-                        }
-                        try {
-                            if (myCaptureFile.createNewFile()) {
-                                FileOutputStream fos = new FileOutputStream(myCaptureFile);
-                                if (newBitmap != null && !newBitmap.isRecycled()) {
-                                    newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                                }
-                                fos.flush();
-                                fos.close();
-                            }
-                            String path = myCaptureFile.getAbsolutePath();
-                            if (!TextUtils.isEmpty(path)) {
-                                DownloadUtil.updateMedia(getActivity(), path);
-                                Util.showToast(getActivity(),
-                                        getString(R.string.tv_save_photo_path, path));
-                                Log.e("demo", "download success");
-                            }
-                        } catch (IOException e) {
-                            Log.e("demo", "download failed");
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-        });
-    }
-
-    ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
-        @Override
-        public void onFinalImageSet(String id, @Nullable ImageInfo imageInfo,
-                @Nullable Animatable anim) {
-            if (imageInfo == null) {
-                return;
-            }
-            QualityInfo qualityInfo = imageInfo.getQualityInfo();
-            FLog.d("Final image received! " + "Size %d x %d",
-                    "Quality level %d, good enough: %s, full quality: %s", imageInfo.getWidth(),
-                    imageInfo.getHeight(), qualityInfo.getQuality(),
-                    qualityInfo.isOfGoodEnoughQuality(), qualityInfo.isOfFullQuality());
-            Logger.d("image",
-                    "width = " + imageInfo.getWidth() + " , height = " + imageInfo.getHeight());
-        }
-
-        @Override
-        public void onIntermediateImageSet(String id, @Nullable ImageInfo imageInfo) {
-        }
-
-        @Override
-        public void onFailure(String id, Throwable throwable) {
-        }
-    };
 }

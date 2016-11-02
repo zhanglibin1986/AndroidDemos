@@ -1,20 +1,12 @@
 package com.zlb.demo;
 
 /**
- * 名称:BinarySearch 功能:实现了折半查找(二分查找)的递归和非递归算法. 说明:
- * 1、要求所查找的数组已有序,并且其中元素已实现Comparable接口,如Integer、String等.
- * 2、非递归查找使用search();,递归查找使用searchRecursively();
- * 
- * 本程序仅供编程学习参考
- * 
  * @author: Winty
- * @param <T>
- * @param <T>
  * @date: 2008-8-11
  * @email: wintys@gmail.com
  */
 class BinarySearch {
-	private String[] data;// 要排序的数据
+	private String[] data;
 
 	public BinarySearch(String[] data) {
 		this.data = data;

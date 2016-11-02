@@ -1,4 +1,4 @@
-package com.zlb.demos.androiddemos.html;
+package com.zlb.demos.androiddemos.html.mzitu;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,13 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.zlb.demos.androiddemos.R;
 import com.zlb.demos.androiddemos.base.BaseFragment;
-import com.zlb.demos.androiddemos.commens.list.RecyclerViewMoreManager;
 import com.zlb.demos.androiddemos.fresco.FrescoManager;
-import com.zlb.demos.androiddemos.html.database.HtmlDbManager;
+import com.zlb.demos.androiddemos.html.mzitu.database.HtmlDbManager;
 import com.zlb.demos.androiddemos.net.OkHttpManager;
 import com.zlb.demos.androiddemos.utils.PatternUtil;
 import java.io.IOException;
@@ -25,10 +23,8 @@ import java.util.List;
 import okhttp3.Request;
 import okhttp3.Response;
 import rx.Observable;
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -89,7 +85,7 @@ public class HtmlFragment extends BaseFragment {
                 .subscribe(new Subscriber<List<String>>() {
                     @Override
                     public void onCompleted() {
-                        if(index < 20) {
+                        if(index < 30) {
                             loadData(TEST_URL + "/page/" + index++);
                         }
                     }

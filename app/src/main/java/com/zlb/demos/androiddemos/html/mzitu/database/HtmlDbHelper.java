@@ -1,9 +1,8 @@
-package com.zlb.demos.androiddemos.html.database;
+package com.zlb.demos.androiddemos.html.mzitu.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.zlb.demos.androiddemos.gank.data.GankPersistenceContract;
 
 /**
  *

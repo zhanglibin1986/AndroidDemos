@@ -1,4 +1,4 @@
-package com.zlb.demos.androiddemos.html.database;
+package com.zlb.demos.androiddemos.html.mzitu.database;
 
 import android.provider.BaseColumns;
 

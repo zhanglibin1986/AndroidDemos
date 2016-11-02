@@ -5,6 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
+    <ImageButton
+        android:id="@+id/mz_star"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/btn_list_like"
+        android:padding="14dp"
+        android:layout_alignParentRight="true"
+        />
+
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/mz_home_item_image"
         android:layout_width="match_parent"

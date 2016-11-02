@@ -1,11 +1,11 @@
-package com.zlb.demos.androiddemos.html.database;
+package com.zlb.demos.androiddemos.html.mzitu.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
-import com.zlb.demos.androiddemos.html.MzHomeItem;
+import com.zlb.demos.androiddemos.html.mzitu.MzHomeItem;
 import com.zlb.demos.androiddemos.utils.Util;
 import java.util.ArrayList;
 import java.util.List;

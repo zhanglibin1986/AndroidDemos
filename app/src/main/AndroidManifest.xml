@@ -3,8 +3,10 @@
     package="com.zlb.demos.androiddemos">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
 
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
@@ -209,11 +211,9 @@
                 <category android:name="com.android.zlb.demos_SAMPLE_CODE"/>
             </intent-filter>
         </activity>
-        <activity android:name=".html.HtmlActivity"
-            android:label="HtmlActivity"
-            >
-
-            <!-- android:label="HtmlActivity" -->
+        <activity android:name=".html.mzitu.HtmlActivity"
+            android:label="HtmlActivity">
+            <!-- > -->
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -221,8 +221,17 @@
                 <category android:name="com.android.zlb.demos_SAMPLE_CODE"/>
             </intent-filter>
         </activity>
+        <activity android:name=".html.mmjpg.MmActivity"
+            android:label="MmActivity">
+            <!-->-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="com.android.zlb.demos_SAMPLE_CODE"/>
+            </intent-filter>
+        </activity>
         <activity
-            android:name=".html.HtmlDetailActivity"
+            android:name=".html.mzitu.HtmlDetailActivity"
             android:theme="@style/FullScreen"/>
         <activity
             android:name=".testdemos.TestSoftInputActivity"
@@ -255,6 +264,32 @@
             </intent-filter>
 
         </activity>
+
+        <activity android:name=".testdemos.TestIOFile"
+            android:label="TestIOFile"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="com.android.zlb.demos_SAMPLE_CODE"/>
+            </intent-filter>
+            </activity>
+        <activity android:name=".testdemos.UiTestActivity"
+            android:label="UiTestActivity"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="com.android.zlb.demos_SAMPLE_CODE"/>
+            </intent-filter>
+            </activity>
+        <activity android:name=".testdemos.DeviceDisplayActivity"
+            android:label="DeviceDisplayActivity"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="com.android.zlb.demos_SAMPLE_CODE"/>
+            </intent-filter>
+            </activity>
     </application>
 
 </manifest>

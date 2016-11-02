@@ -72,7 +72,7 @@ public class RecyclerViewMoreManager {
         return mRecyclerView;
     }
 
-    interface MoreRecyclerCallback {
+    public interface MoreRecyclerCallback {
         /**
          * 是否正在加载数据
          *
