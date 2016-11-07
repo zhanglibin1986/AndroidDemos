@@ -116,4 +116,22 @@ public class Binary {
 
         return -1;
     }
+
+    private int search7(int[]a, int key) {
+        int low = 0;
+        int high = a.length - 1;
+        int mid = (low + high) / 2;
+
+        while (low < high) {
+            if(key > a[mid]) {
+                low = mid;
+            } else if(key < a[mid]){
+                high = mid;
+            } else {
+                return mid;
+            }
+            mid = (low + high) / 2;
+        }
+        return -1;
+    }
 }

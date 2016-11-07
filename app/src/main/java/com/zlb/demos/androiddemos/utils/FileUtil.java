@@ -327,7 +327,7 @@ public class FileUtil {
         return (separatorIndex < 0) ? path : path.substring(separatorIndex + 1, path.length());
     }
 
-    public static boolean renameFile(String filePath) {
+    public static boolean renameFile(String filePath, String newName) {
         if(filePath == null || filePath.trim().equals("")) {
             return false;
         }
@@ -336,7 +336,7 @@ public class FileUtil {
             return false;
         }
 
-
+        return file.renameTo(new File(file.getAbsolutePath(), newName));
     }
 
 }

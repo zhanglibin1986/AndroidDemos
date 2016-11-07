@@ -19,6 +19,8 @@ public class CommenImage {
 
     private boolean isStar;
 
+    private boolean isWriteToFile;
+
     public String getName() {
         return name;
     }
@@ -67,6 +69,14 @@ public class CommenImage {
         isStar = star;
     }
 
+    public boolean isWriteToFile() {
+        return isWriteToFile;
+    }
+
+    public void setWriteToFile(boolean writeToFile) {
+        isWriteToFile = writeToFile;
+    }
+
     @Override
     public String toString() {
         return "CommenImage{" +
@@ -76,6 +86,7 @@ public class CommenImage {
                 ", localUrl='" + localUrl + '\'' +
                 ", description='" + description + '\'' +
                 ", isStar=" + isStar +
+                ", isWriteToFile=" + isWriteToFile +
                 '}';
     }
 }

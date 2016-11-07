@@ -11,7 +11,9 @@ import butterknife.BindView;
 import com.zlb.demos.androiddemos.R;
 import com.zlb.demos.androiddemos.base.BaseFragment;
 import com.zlb.demos.androiddemos.commens.list.RecyclerViewMoreManager;
+import com.zlb.demos.androiddemos.gank.bean.CommenImage;
 import com.zlb.demos.androiddemos.html.DetailAdapter;
+import com.zlb.demos.androiddemos.html.mmjpg.database.MmDbManager;
 import com.zlb.demos.androiddemos.utils.Logger;
 import com.zlb.demos.androiddemos.utils.UrlUtil;
 import java.util.ArrayList;
@@ -162,7 +164,12 @@ public class MmFragment extends BaseFragment {
     private List<String> createData(int count) {//从2015/1/1开始
         List<String> list = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            list.add(getUrl());
+            String url = getUrl();
+            list.add(url);
+            CommenImage image = new CommenImage();
+            image.setUrl(url);
+            image.setName(year + "/" + second + "/" + third);
+            MmDbManager.getInstance(getActivity()).saveImage(image);
         }
         return list;
     }

@@ -54,6 +54,16 @@ public class DeviceDisplayActivity extends BaseActivity {
         sb.append("Build.TIME TIME:" + Build.TIME + "\n");
         sb.append("Build.TYPE builder类型：" + Build.TYPE + "\n");
         sb.append("Build.USER USER:" + Build.USER + "\n");
+
+        sb.append("\n" + "Build.VERSION" + "\n");
+        sb.append("BASE_OS:" + Build.VERSION.BASE_OS + "\n");
+        sb.append("CODENAME:" + Build.VERSION.CODENAME + "\n");
+        sb.append("INCREMENTAL:" + Build.VERSION.INCREMENTAL + "\n");
+        sb.append("RELEASE:" + Build.VERSION.RELEASE + "\n");
+        sb.append("SECURITY_PATCH:" + Build.VERSION.SECURITY_PATCH + "\n");
+        sb.append("xSDK:" + Build.VERSION.SDK + "\n");
+        sb.append("PREVIEW_SDK_INT:" + Build.VERSION.PREVIEW_SDK_INT + "\n");
+        sb.append("SDK_INT:" + Build.VERSION.SDK_INT + "\n");
         return sb.toString();
     }
 
@@ -75,4 +85,6 @@ public class DeviceDisplayActivity extends BaseActivity {
 
         return sb.toString();
     }
+
+
 }
