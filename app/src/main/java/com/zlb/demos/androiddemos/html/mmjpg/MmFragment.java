@@ -1,8 +1,7 @@
 package com.zlb.demos.androiddemos.html.mmjpg;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,7 @@ import com.zlb.demos.androiddemos.html.DetailAdapter;
 import com.zlb.demos.androiddemos.html.mmjpg.database.MmDbManager;
 import com.zlb.demos.androiddemos.utils.Logger;
 import com.zlb.demos.androiddemos.utils.UrlUtil;
+import com.zlb.demos.androiddemos.utils.Util;
 import java.util.ArrayList;
 import java.util.List;
 import rx.Observable;
@@ -39,6 +39,8 @@ public class MmFragment extends BaseFragment {
     int second = 1;
     int third = 1;
 
+    int index = 0;
+
     public static MmFragment newInstance() {
         return new MmFragment();
     }
@@ -54,14 +56,8 @@ public class MmFragment extends BaseFragment {
         return inflater.inflate(R.layout.fragment_html_detail, container, false);
     }
 
-    LinearLayoutManager layoutManager;
-
     @Override
     protected void initView() {
-        //layoutManager = new LinearLayoutManager(getActivity());
-        //layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        //recyclerView.setLayoutManager(layoutManager);
-
 
         new RecyclerViewMoreManager(getActivity(), recyclerView, 1,
                 new RecyclerViewMoreManager.MoreRecyclerCallback() {
@@ -97,20 +93,57 @@ public class MmFragment extends BaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         addData();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadImageToDb();
+            }
+        }, 1000);
     }
 
-    private void addData() {
-        isRequesting = true;
+    private void loadImageToDb() {
+        year = MmjpgPreferenceManager.getInstance().getYear();
+        second = MmjpgPreferenceManager.getInstance().getSecond();
+
         Observable.create(new Observable.OnSubscribe<List<String>>() {
             @Override
             public void call(Subscriber<? super List<String>> subscriber) {
-                subscriber.onNext(createData(20));
+                subscriber.onNext(createData());
                 subscriber.onCompleted();
             }
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<String>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(List<String> strings) {
+                        log("add datas " + strings.size());
+                        //adapter.addDatas(strings);
+                        Util.showToast(getActivity(), "搜索出了 < " + strings.size() + " > 条数据");
+                    }
+                });
+    }
+
+    private void addData() {
+        isRequesting = true;
+        Observable.create(new Observable.OnSubscribe<List<CommenImage>>() {
+            @Override
+            public void call(Subscriber<? super List<CommenImage>> subscriber) {
+                subscriber.onNext(getDataFromDb(20));
+                subscriber.onCompleted();
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<CommenImage>>() {
                     @Override
                     public void onCompleted() {
                         isRequesting = false;
@@ -122,7 +155,7 @@ public class MmFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void onNext(List<String> strings) {
+                    public void onNext(List<CommenImage> strings) {
                         isRequesting = false;
                         log("add datas " + strings.size());
                         adapter.addDatas(strings);
@@ -137,17 +170,21 @@ public class MmFragment extends BaseFragment {
         String temp = "http://img.mmjpg.com/" + year + "/" + second + "/" + third + ".jpg";
 
         while (!urlUtil.isAvailable(temp)) {
-            log("------- no available " + temp);
+            //log("------- no available " + temp);
             thirdFailTime++;
             if (thirdFailTime == 100) {
                 secondFailTime++;
                 second++;
+                MmjpgPreferenceManager.getInstance().mark(year, second);
+                log("mark year = " + year + " , second = " + second);
                 thirdFailTime = 0;
                 third = 1;
                 if (secondFailTime == 500) {
                     year++;
                     second = 1;
                     secondFailTime = 0;
+                    MmjpgPreferenceManager.getInstance().mark(year, second);
+                    log("mark year = " + year + " , second = " + second);
                 }
             }
             third++;
@@ -161,20 +198,27 @@ public class MmFragment extends BaseFragment {
 
     private UrlUtil urlUtil = new UrlUtil();
 
-    private List<String> createData(int count) {//从2015/1/1开始
+    private List<String> createData() {//从2015/1/1开始
         List<String> list = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < 10000; i++) {
             String url = getUrl();
             list.add(url);
             CommenImage image = new CommenImage();
             image.setUrl(url);
-            image.setName(year + "/" + second + "/" + third);
+            image.setName(url);
             MmDbManager.getInstance(getActivity()).saveImage(image);
         }
         return list;
     }
 
+    private List<CommenImage> getDataFromDb(int count) {
+        List<CommenImage> images = MmDbManager.getInstance(getActivity()).queryImages(index, count, true);
+        log("getDataFromDb size = " + images.size());
+        index += count;
+        return images;
+    }
+
     private void log(String log) {
-        Logger.d("mm", log);
+        Logger.d("mmjpg", log);
     }
 }

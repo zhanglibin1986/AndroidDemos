@@ -28,6 +28,7 @@ import com.zlb.demos.androiddemos.base.BaseFragment;
 import com.zlb.demos.androiddemos.fresco.FrescoManager;
 import com.zlb.demos.androiddemos.fresco.ImageResponseListener;
 import com.zlb.demos.androiddemos.gank.ViewPagerActivity;
+import com.zlb.demos.androiddemos.gank.bean.CommenImage;
 import com.zlb.demos.androiddemos.html.DetailAdapter;
 import com.zlb.demos.androiddemos.net.OkHttpManager;
 import com.zlb.demos.androiddemos.utils.BitmapUtil;
@@ -178,9 +179,16 @@ public class HtmlDetailFragment extends BaseFragment {
                     public void onNext(String s) {
                         String image = s.substring("img src=\"".length(), s.length() - 1);
                         Log.d("rx", "onNext image = " + image);
-                        adapter.addData(image);
+                        adapter.addData(createImage(image));
                     }
                 });
+    }
+
+    private CommenImage createImage(String url) {
+        CommenImage image = new CommenImage();
+        image.setUrl(url);
+        image.setName(url);
+        return image;
     }
 
 }

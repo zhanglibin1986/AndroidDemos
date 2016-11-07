@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import com.facebook.common.logging.FLog;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.BaseControllerListener;
@@ -25,6 +26,7 @@ import com.zlb.demos.androiddemos.R;
 import com.zlb.demos.androiddemos.fresco.FrescoManager;
 import com.zlb.demos.androiddemos.fresco.ImageResponseListener;
 import com.zlb.demos.androiddemos.gank.ViewPagerActivity;
+import com.zlb.demos.androiddemos.gank.bean.CommenImage;
 import com.zlb.demos.androiddemos.html.mzitu.HtmlDetailFragment;
 import com.zlb.demos.androiddemos.utils.BitmapUtil;
 import com.zlb.demos.androiddemos.utils.DisplayUtils;
@@ -45,25 +47,27 @@ import java.util.List;
  */
 
 public class DetailAdapter extends RecyclerView.Adapter {
-    private ArrayList<String> datas = new ArrayList<>();
+    private ArrayList<CommenImage> datas = new ArrayList<>();
     private Activity activity;
 
     public DetailAdapter(Activity activity) {
         this.activity = activity;
     }
 
-    public void setData(List<String> data) {
+    public void setData(List<CommenImage> data) {
         datas.clear();
         datas.addAll(data);
         notifyDataSetChanged();
     }
 
-    public void addData(String data) {
+    public void addData(CommenImage data) {
+        log("add data : " + data);
         datas.add(data);
         notifyDataSetChanged();
     }
 
-    public void addDatas(List<String> data) {
+    public void addDatas(List<CommenImage> data) {
+        log("add datas : " + data);
         datas.addAll(data);
         notifyDataSetChanged();
     }
@@ -81,8 +85,8 @@ public class DetailAdapter extends RecyclerView.Adapter {
         //FrescoManager.loadUrl(datas.get(position)).into(viewHolder.image);
 
         //viewHolder.image.setImageURI(Uri.parse(datas.get(position)));
-
-        Uri uri = Uri.parse(datas.get(position));
+        CommenImage item = datas.get(position);
+        Uri uri = Uri.parse(item.getUrl());
 
         DraweeController controller = Fresco.newDraweeControllerBuilder()
                 .setControllerListener(new BaseControllerListener<ImageInfo>() {
@@ -101,23 +105,34 @@ public class DetailAdapter extends RecyclerView.Adapter {
                 .setUri(uri)
                 // other setters
                 .build();
+        File file = FrescoManager.getCachedImageOnDisk(item.getUrl());
+        Log.d("file", "file = " + item + " , postion = " + position);
 
         //ImagePipeline imagePipeline = Fresco.getImagePipeline();
 
         viewHolder.image.setController(controller);
+        viewHolder.textView.setText(datas.get(position).getId());
 
         viewHolder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewPagerActivity.startActivity(activity, datas, position);
+                ViewPagerActivity.startActivity(activity, toListString(datas), position);
             }
         });
         viewHolder.download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                savePhoto(datas.get(position));
+                savePhoto(datas.get(position).getUrl());
             }
         });
+    }
+
+    private ArrayList<String> toListString(List<CommenImage> images) {
+        ArrayList<String> list = new ArrayList<>();
+        for (CommenImage image : images) {
+            list.add(image.getUrl());
+        }
+        return list;
     }
 
     @Override
@@ -128,16 +143,19 @@ public class DetailAdapter extends RecyclerView.Adapter {
     class HolderDetail extends RecyclerView.ViewHolder {
         SimpleDraweeView image;
         Button download;
+        TextView textView;
 
         public HolderDetail(View itemView) {
             super(itemView);
             image = ((SimpleDraweeView) itemView.findViewById(R.id.mz_detail_image));
             download = (Button) itemView.findViewById(R.id.mz_detail_down);
+            textView = (TextView) itemView.findViewById(R.id.desc);
         }
     }
 
     /**
      * 保存图片到面包旅行相册
+     * 最好采用这种方式下载图片 http://www.jianshu.com/p/565e5b0ca823
      */
     public void savePhoto(final String url) {
         FrescoManager.loadUrl(url).into(activity, new ImageResponseListener() {
@@ -209,5 +227,9 @@ public class DetailAdapter extends RecyclerView.Adapter {
         public void onFailure(String id, Throwable throwable) {
         }
     };
+
+    private void log(String log) {
+        Logger.d("mmjpg", log);
+    }
 }
 

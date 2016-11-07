@@ -37,11 +37,11 @@ public class MmDbManager {
     }
 
     //增
-    public boolean saveImage(CommenImage image) {
+    public synchronized boolean saveImage(CommenImage image) {
         Util.checkNotNull(image);
         SQLiteDatabase db = mDbHelpter.getWritableDatabase();
 
-        if(hasUrl(image.getUrl())) {
+        if (hasUrl(image.getUrl())) {
             log("already has image " + image.getUrl());
             return false;
         }
@@ -129,7 +129,8 @@ public class MmDbManager {
 
         String[] projection = {
                 MmPersistenceContract.MmListEntry.PIC_URL, MmPersistenceContract.MmListEntry.TITLE,
-                MmPersistenceContract.MmListEntry.IS_WRITE_TO_FILE, MmPersistenceContract.MmListEntry.IS_STAR
+                MmPersistenceContract.MmListEntry.IS_WRITE_TO_FILE,
+                MmPersistenceContract.MmListEntry.IS_STAR
         };
 
         String selection = MmPersistenceContract.MmListEntry.IS_STAR + " LIKE ?";
@@ -142,48 +143,50 @@ public class MmDbManager {
         return getImageListFromCursor(cursor);
     }
 
-
-
     //查
     public List<CommenImage> queryAllImage() {
         SQLiteDatabase db = mDbHelpter.getReadableDatabase();
 
         String[] projection = {
                 MmPersistenceContract.MmListEntry.PIC_URL, MmPersistenceContract.MmListEntry.TITLE,
-                MmPersistenceContract.MmListEntry.IS_WRITE_TO_FILE, MmPersistenceContract.MmListEntry.IS_STAR
+                MmPersistenceContract.MmListEntry.IS_WRITE_TO_FILE,
+                MmPersistenceContract.MmListEntry.IS_STAR
         };
 
-
         Cursor cursor =
-                db.query(MmPersistenceContract.MmListEntry.TABLE_NAME, projection, null,
-                        null, null, null, null);
+                db.query(MmPersistenceContract.MmListEntry.TABLE_NAME, projection, null, null, null,
+                        null, null);
 
         return getImageListFromCursor(cursor);
     }
 
     //查
-    public List<CommenImage> queryImages(int from, int count) {
+    public synchronized List<CommenImage> queryImages(int from, int count, boolean reverse) {
+        log("queryImages from " + from + " count = " + count);
         SQLiteDatabase db = mDbHelpter.getReadableDatabase();
 
         String[] projection = {
                 MmPersistenceContract.MmListEntry.PIC_URL, MmPersistenceContract.MmListEntry.TITLE,
-                MmPersistenceContract.MmListEntry.IS_WRITE_TO_FILE, MmPersistenceContract.MmListEntry.IS_STAR
+                MmPersistenceContract.MmListEntry.IS_WRITE_TO_FILE,
+                MmPersistenceContract.MmListEntry.IS_STAR
         };
 
         Cursor cursor =
                 db.query(MmPersistenceContract.MmListEntry.TABLE_NAME, projection, null, null, null,
-                        null, "" + BaseColumns._ID + " ASC", "" + from + "," + count);
+                        null, "" + BaseColumns._ID + (reverse ? " DESC" : " ASC"),
+                        "" + from + "," + count);
+        log("queryImages cursor.getCount = " + cursor.getCount());
         return getImageListFromCursor(cursor);
-
     }
 
     private List<CommenImage> getImageListFromCursor(Cursor cursor) {
         List<CommenImage> list = new ArrayList<>();
-        CommenImage image = new CommenImage();
 
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
+                //String id = cursor.getString(
+                //        cursor.getColumnIndex(MmPersistenceContract.MmListEntry._ID));
                 String title = cursor.getString(
                         cursor.getColumnIndex(MmPersistenceContract.MmListEntry.TITLE));
                 String picUrl = cursor.getString(
@@ -193,11 +196,12 @@ public class MmDbManager {
                 boolean writeFile = cursor.getInt(
                         cursor.getColumnIndex(MmPersistenceContract.MmListEntry.IS_WRITE_TO_FILE))
                         == 1;
-
+                CommenImage image = new CommenImage();
                 image.setName(title);
                 image.setUrl(picUrl);
                 image.setStar(star);
                 image.setWriteToFile(writeFile);
+                //image.setId(id);
                 list.add(image);
                 cursor.moveToNext();
             }
@@ -209,48 +213,44 @@ public class MmDbManager {
 
     private void log(String log) {
         Log.d("mmjpg", "------- " + log);
-
     }
-
 }
 
 /**
+ * 7
+ * down vote
+ * the limit clause should be "10,20" with no space between the coma and the 20.
  *
- 7
- down vote
- the limit clause should be "10,20" with no space between the coma and the 20.
-
- public Cursor getAllDiscounts() {
- return db.query(DATABASE_TABLE, new String[] { KEY_ROWID,
- KEY_PORTALNAME, KEY_TITLE, KEY_TITLESHORT, KEY_DEALURL,
- KEY_ENDDATE, KEY_COORDS, KEY_CITY, KEY_IMAGEDEAL,
- KEY_CLICKPRICE, KEY_CONVERSIONPERCENTAGE, KEY_FINALPRICE,
- KEY_ORIGINALPRICE, KEY_SALES, KEY_KATEGORIJA, KEY_POPUST },
- null, null, null, null, null, "10,20");
- }
+ * public Cursor getAllDiscounts() {
+ * return db.query(DATABASE_TABLE, new String[] { KEY_ROWID,
+ * KEY_PORTALNAME, KEY_TITLE, KEY_TITLESHORT, KEY_DEALURL,
+ * KEY_ENDDATE, KEY_COORDS, KEY_CITY, KEY_IMAGEDEAL,
+ * KEY_CLICKPRICE, KEY_CONVERSIONPERCENTAGE, KEY_FINALPRICE,
+ * KEY_ORIGINALPRICE, KEY_SALES, KEY_KATEGORIJA, KEY_POPUST },
+ * null, null, null, null, null, "10,20");
+ * }
  *
  *
  *
  * SELECT
- keyword
- FROM
- keyword_rank
- WHERE
- advertiserid='59'
- order by
- keyword
- LIMIT 2 OFFSET 1;
-
-
-
- SELECT
- keyword
- FROM
- keyword_rank
- WHERE
- advertiserid='59'
- ORDER BY
- keyword
- LIMIT 2 ,1;
+ * keyword
+ * FROM
+ * keyword_rank
+ * WHERE
+ * advertiserid='59'
+ * order by
+ * keyword
+ * LIMIT 2 OFFSET 1;
  *
+ *
+ *
+ * SELECT
+ * keyword
+ * FROM
+ * keyword_rank
+ * WHERE
+ * advertiserid='59'
+ * ORDER BY
+ * keyword
+ * LIMIT 2 ,1;
  */

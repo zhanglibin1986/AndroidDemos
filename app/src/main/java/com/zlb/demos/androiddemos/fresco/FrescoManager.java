@@ -12,6 +12,9 @@ import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.facebook.binaryresource.BinaryResource;
+import com.facebook.binaryresource.FileBinaryResource;
+import com.facebook.cache.common.CacheKey;
 import com.facebook.common.executors.CallerThreadExecutor;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.common.util.UriUtil;
@@ -28,8 +31,10 @@ import com.facebook.drawee.interfaces.DraweeHierarchy;
 import com.facebook.drawee.view.DraweeView;
 import com.facebook.drawee.view.GenericDraweeView;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.cache.DefaultCacheKeyFactory;
 import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.core.ImagePipeline;
+import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
 import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.image.ImageInfo;
@@ -39,6 +44,7 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.zlb.demos.androiddemos.AppApplication;
 import com.zlb.demos.androiddemos.R;
 import com.zlb.demos.androiddemos.utils.Logger;
+import java.io.File;
 
 /**
  * @author zhanglibin
@@ -737,4 +743,21 @@ public class FrescoManager {
 
         }
     };
+
+    public static File getCachedImageOnDisk(String picUrl) {
+        CacheKey cacheKey = DefaultCacheKeyFactory.getInstance().getEncodedCacheKey(ImageRequest.fromUri(Uri.parse(picUrl)), null);
+
+        File localFile = null;
+        if (cacheKey != null) {
+            if(ImagePipelineFactory.getInstance().getMainFileCache().hasKey(cacheKey)) {
+                BinaryResource
+                        resource = ImagePipelineFactory.getInstance().getMainFileCache().getResource(cacheKey);
+                localFile = ((FileBinaryResource) resource).getFile();
+            } else if (ImagePipelineFactory.getInstance().getMainFileCache().hasKey(cacheKey)) {
+                BinaryResource resource = ImagePipelineFactory.getInstance().getMainFileCache().getResource(cacheKey);
+                localFile = ((FileBinaryResource) resource).getFile();
+            }
+        }
+        return localFile;
+    }
 }
